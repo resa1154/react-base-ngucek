@@ -1,0 +1,108 @@
+.container-content {
+  margin: 16px;
+}
+
+.small-box {
+  background-color: #4e2b88;
+  /* background-image: linear-gradient(30deg, #4e2b88 30%, #9e6eb6 100%); */
+  border-radius: 4px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+  display: block;
+  margin-bottom: 20px;
+  position: relative;
+  color: white;
+}
+
+.main-box {
+  display: flex;
+  padding: 16px 10px;
+  justify-content: space-between;
+}
+
+.inner {
+  text-align: end;
+}
+
+.inner h3 {
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.inner p {
+  font-size: 16px;
+}
+
+i.icon.icon-box {
+  font-size: 70px;
+  line-height: initial;
+  transition: all .3s linear;
+  color: rgba(0, 0, 0, .15);
+}
+
+.small-box-footer {
+  display: block;
+  text-align: end;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 6px;
+  position: relative;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.small-box-footer:hover {
+  background-color: rgba(0, 0, 0, .15);
+  color: white;
+}
+
+.small-box:hover i.icon.icon-box {
+  font-size: 75px;
+  /* color: rgba(255, 255, 255, 0.9); */
+}
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-card .title {
+  font-weight: 700;
+}
+
+.user-box {
+  background-color: #17A2B8;
+}
+
+.customer-box {
+  background-color: #28A745;
+}
+
+.order-box {
+  background-color: #FFC107;
+}
+
+.order-week-box {
+  background-color: #DC3545;
+}
+@media (max-width: 575.98px) { 
+  .container-content{
+    margin: 16px 0;
+  }
+ }
+
+@media (max-width: 767.98px) {
+
+}
+
+@media (max-width: 991px)  {
+  .ui.card.chart-card {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .inner {
+    position: absolute;
+    right: 10px;
+  }
+}

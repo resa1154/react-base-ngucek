@@ -1,0 +1,29 @@
+
+.ui.segment.menu-content{
+    margin: 0;
+}
+
+.form-content{
+    margin:16px 10px;
+    border: solid 1px #eee;
+    padding: 16px 20px;
+    position: relative;
+}
+
+.title-content{
+    position: absolute;
+    top: -10px;
+    left: 13px;
+    background-color: white;
+}
+.form-btn{
+    float: right;
+}
+
+.ui.grid>.row.row-custom{
+    padding-top: 0;
+}
+
+.image-container{
+    padding: 6px 0;
+}

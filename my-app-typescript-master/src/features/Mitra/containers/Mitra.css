@@ -1,0 +1,71 @@
+.ui.secondary.menu.menu-header{
+    padding: 12px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+    color: black;
+}
+
+.ui.secondary.menu.menu-header h3{
+    color: black;
+}
+
+.title-image{
+    font-size: 16px;
+    text-align: center;
+}
+
+.ui.images.image-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.ui.segment.menu-content{
+    margin: 0;
+}
+
+.form-content{
+    margin:16px 10px;
+    border: solid 1px #eee;
+    padding: 16px 20px;
+    position: relative;
+}
+
+.title-content{
+    position: absolute;
+    top: -10px;
+    left: 13px;
+    background-color: white;
+}
+.form-btn{
+    float: right;
+}
+
+@media (max-width: 767.98px){
+    .ui.secondary.menu.menu-header h3{
+        font-size: 16px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .ui.secondary.menu.menu-header h3{
+        font-size: 16px;
+    }
+    
+   }
+
+   .react-datepicker-wrapper{
+       display: block;
+   }
+
+   .modal-header{
+       text-align: center;
+   }
+
+   .ui.pagination.menu .item{
+       color: inherit !important;
+   }
+
+   .image-wrapper{
+       display: flex;
+       justify-content: space-between;
+   }
