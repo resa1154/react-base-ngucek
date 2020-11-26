@@ -1,12 +1,23 @@
-import React, {useEffect} from "react";
-import { Table, Menu, Icon, Button } from "semantic-ui-react";
+import React, {useEffect, useState} from "react";
+import { Table, Button, Pagination } from "semantic-ui-react";
 import { useDispatch, useSelector} from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../../app/store";
 import {getDataMitra, setFilter} from "../mitra.reducer";
+import { PaginationProps } from "semantic-ui-react/dist/commonjs/addons/Pagination/Pagination";
+
+interface PaginationInt {
+  limit: number;
+  page: number;
+}
 
 const DataMitraTable = () => {
     const dispatch = useDispatch();
+    const [dataMitraState, setDataMitraState] = useState([]);
+    const [pagination, setPagination] = useState<PaginationInt>({
+      page: 1,
+      limit: 2
+    });
 
     const MitraList = [{
         id:1,
@@ -46,12 +57,48 @@ const DataMitraTable = () => {
       storeAddress:"Jl Jakarta",
   }];
 
+
     const DataMitra = useSelector((state:RootState) => state.mitra.list);
-  
+    const DataMitraFilter = useSelector((state:RootState) => state.mitra.filter);
     const itemDataMitra = DataMitra  ?? [];
+    const itemDataMitraFilter = DataMitraFilter ?? [];
+
+    useEffect(()=>{
+      setDataMitraState(
+        itemDataMitraFilter.length === 0 ? itemDataMitra : itemDataMitraFilter
+      );
+    }, [DataMitra]);
+
+    useEffect(()=>{
+      setDataMitraState(
+        itemDataMitraFilter.length === 0 ? itemDataMitra : itemDataMitraFilter
+      );
+    }, [DataMitraFilter]);
+
+    //Pagination Handler
+    const onChangePage = (page: number) => {
+      if (page !== pagination.page) {
+        setPagination({ ...pagination, page: page as number });
+       
+      }
+    };
+    const handleChangePage = (
+      event: React.MouseEvent<HTMLAnchorElement>,
+      { activePage }: PaginationProps
+    ) => {
+      onChangePage(activePage as number);
+    };
+
+    
+    const totalCount = dataMitraState.length;
+    console.log(totalCount);
+    
+    const indexOfLastPage  = pagination.page * pagination.limit;
+    const indexOfFirstPage = indexOfLastPage  - pagination.limit;
+    const PagingMitra    = dataMitraState.slice(indexOfFirstPage, indexOfLastPage  );
 
       const renderItemsTableRow = () =>{
-          return itemDataMitra.map((td) => (
+          return PagingMitra .map((td:any) => (
             <Table.Row key={td.id}>
             <Table.Cell>{td.no}</Table.Cell>
             <Table.Cell>{td.status}</Table.Cell>
@@ -99,18 +146,14 @@ const DataMitraTable = () => {
         <Table.Footer>
     <Table.Row>
       <Table.HeaderCell colSpan='8'>
-        <Menu floated='right' pagination>
-          <Menu.Item as='a' icon>
-            <Icon name='chevron left' />
-          </Menu.Item>
-          <Menu.Item as='a'>1</Menu.Item>
-          <Menu.Item as='a'>2</Menu.Item>
-          <Menu.Item as='a'>3</Menu.Item>
-          <Menu.Item as='a'>4</Menu.Item>
-          <Menu.Item as='a' icon>
-            <Icon name='chevron right' />
-          </Menu.Item>
-        </Menu>
+      <Pagination
+         boundaryRange={0}
+         firstItem={null}
+         lastItem={null}
+                totalPages={Math.ceil(totalCount / pagination.limit)}
+                activePage={pagination.page}
+                onPageChange={handleChangePage}
+              />
       </Table.HeaderCell>
     </Table.Row>
   </Table.Footer>

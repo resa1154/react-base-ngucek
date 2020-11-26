@@ -7,16 +7,15 @@ import {
   Form,
   Grid,
   Modal,
-  TextArea,
 } from "semantic-ui-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../containers/Mitra.css";
 import ReactDatePicker from "react-datepicker";
-import MitraForm from "../components/DataMitraForm";
 import Viewer from "react-viewer";
 import { getMitraSingle} from "../mitra.reducer";
+import { useLocation } from 'react-router-dom';
 
 const MitraDetailPage = () => {
   const [startYear, setStartYear] = useState(new Date());
@@ -28,7 +27,7 @@ const MitraDetailPage = () => {
 
   const dispatch = useDispatch();
   //
-  const [nama, setName] = useState("");
+  const [nama, setName] = useState('');
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [no_nik, setNo_Nik] = useState("-");
@@ -46,17 +45,32 @@ const MitraDetailPage = () => {
   const [companySince, setCompanySince] = useState("");
   const [date, setDate] = useState("");
 
-  // const MitraState = useSelector((state: RootState) => state.dataTest);
   const MitraState = useSelector((state: RootState) => state.mitra.single);
   console.log(MitraState)
 
   // const[stateValue,setStateValue] = useState(MitraState ?? {});
+  const location = useLocation();
+  const idMitra = location.search.substring(4);
+  let history = useHistory();
+  const search = history.location.search;
+  const params = new URLSearchParams(search);
+  const paramID = params.get("id") ?? "";
+  console.log("ID mitra :"+idMitra, "ParamID :" +paramID)
+  const formvalue = MitraState ?? [];
+  
+  console.log("ini formvalue :" +formvalue.nama)
 
-  const itemValue = MitraState ?? [];
+  useEffect(()=>{
+  dispatch(getMitraSingle(paramID));
+}, []);
 
 useEffect(()=>{
-    dispatch(getMitraSingle("1"));
-})
+  if(MitraState !== undefined){
+    setName(MitraState.nama);
+  }
+
+},[MitraState !== undefined]);
+
 
 
   // useEffect(() =>{
@@ -149,23 +163,23 @@ useEffect(()=>{
               <Form>
                 <Form.Field>
                   <label>Nama Lengkap</label>
-                  <input placeholder="Name" value={itemValue.nama} disabled/>
+                  <Form.Input placeholder="Name" value={nama} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" value={itemValue.email} disabled/>
+                  <input placeholder="Email" value={formvalue.email} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <input placeholder="Telepon" value={itemValue.phoneNumber} disabled/>
+                  <input placeholder="Telepon" value={formvalue.phoneNumber} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>NIK</label>
-                  <input placeholder="NIK" value={itemValue.no_nik} disabled/>
+                  <input placeholder="NIK" value={formvalue.no_nik} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>NPWP (Optional)</label>
-                  <input placeholder="NPWP" value={itemValue.npwp} disabled/>
+                  <input placeholder="NPWP" value={formvalue.npwp} readOnly/>
                 </Form.Field>
               </Form>
             </div>
@@ -259,19 +273,19 @@ useEffect(()=>{
               <Form>
                 <Form.Field>
                   <label>Nama Perusahaan</label>
-                  <input placeholder="Nama Perusahaan" value={itemValue.companyName} disabled/>
+                  <input placeholder="Nama Perusahaan" value={formvalue.companyName} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Nama Toko</label>
-                  <input placeholder="Nama Toko" value={itemValue.shopName} disabled/>
+                  <input placeholder="Nama Toko" value={formvalue.shopName} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <input placeholder="Telepon" />
+                  <input placeholder="Telepon" value={formvalue.phoneNumber} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" value={itemValue.email} disabled/>
+                  <input placeholder="Email" value={formvalue.email} readOnly/>
                 </Form.Field>
                 <Form.Group widths={2}>
                   <Form.Field>
@@ -288,17 +302,17 @@ useEffect(()=>{
                 <Form.Checkbox label="Memiliki Kurir" />
 
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" readOnly/>
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan"  readOnly/>
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
-                  <Form.Input fluid label="Kota" placeholder="Kota" />
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan"  readOnly/>
+                  <Form.Input fluid label="Kota" placeholder="Kota"  />
                 </Form.Group>
                 <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos"  readOnly/>
                 </Form.Group>
-                <Form.TextArea label="Alamat" placeholder="Alamat" />
+                <Form.TextArea label="Alamat" placeholder="Alamat" readOnly />
                 <Form.Field>
                   <label>Map</label>
                   <iframe

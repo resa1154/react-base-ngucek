@@ -6,7 +6,7 @@ import { MitraModel, MitraDetailModel } from './models';
 
 export interface MitraSlice {
     name?: string;
-    list? : any[];
+    list? : any;
     single? :any;
     filter?:any;
     isLoading?: boolean;
@@ -68,7 +68,7 @@ const mitraSlice = createSlice({
         },
         setFilter:(state, action) =>{
           state.filter = action.payload;
-          state.list = action.payload;
+        //   state.list = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -80,7 +80,7 @@ const mitraSlice = createSlice({
         state.isLoading = false;
     });
     builder.addCase(getMitraSingle.fulfilled, (state, { payload }) => {
-        state.single = payload [0];
+        state.single = payload;
         state.isLoading = false;
       });
     builder.addCase(getDataMitra.rejected, (state, {payload}) => {

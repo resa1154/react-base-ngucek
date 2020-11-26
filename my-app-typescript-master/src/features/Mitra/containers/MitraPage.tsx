@@ -48,8 +48,15 @@ useEffect(() => {
 
 const getFilteredData = (datainput:any) => {
   const datafilter = MitraFilterState ?? [];
-  const filteredData = datafilter.filter(find => find.nama.toString().toLowerCase() === datainput.ownerName || find.status.toString().toLowerCase() === datainput.status);
-  console.log(filteredData);
+  const filteredData = datafilter.filter(
+    (find:{
+      nama:{toString: () => string};
+      status:{toString: () => string};
+    }) => find.nama.toString().toLowerCase() === datainput.ownerName || find.status.toString().toLowerCase() === datainput.status);
+  
+    return filteredData;
+    console.log(filteredData);
+
   }
 
 const onSubmit = (
@@ -58,9 +65,11 @@ const onSubmit = (
   startDate:Date,
   endDate:Date
 ) => {
-  getFilteredData({ownerName, status});
-
-
+  // getFilteredData({ownerName, status});
+const FormFilterSubmit = getFilteredData({ownerName, status});
+console.log("ini submit");
+console.log(FormFilterSubmit);
+dispatch(setFilter(FormFilterSubmit));
 //   dispatch(setData ([
 //     {
 //     no:"1",
