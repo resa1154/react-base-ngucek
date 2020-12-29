@@ -29,6 +29,4 @@ export default class MitraApi{
             // },
         }).then((res) => res.data);
     }
-
-
 }

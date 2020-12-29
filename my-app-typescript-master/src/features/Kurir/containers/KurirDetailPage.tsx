@@ -1,12 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Menu, Button, Grid, Form, Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { RootState } from "../../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getKurirSingle } from "../kurir.reducer";
 
 const KurirDetailPage = () => {
-  const options = [
-    { key: "aktif", text: "Aktif", value: "aktif" },
-    { key: "nonAktif", text: "Non-Aktif", value: "nonAktif" },
-  ];
+  const dispatch = useDispatch();
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [phone,setPhone] = useState("");
+  const [address,setAddress] = useState("");
+  const [province,setProvince] = useState("");
+  const [district,setDistrict] = useState("");
+  const [subDistrict, setSubDistrict] = useState("");
+  const [city, setCity] = useState("");
+  const [postalcode,setPostalCode] = useState("");
+  const [status,setStatus] = useState("");
+  const [nopol, setNopol] = useState("");
+  const [username,setUsername] = useState("");
+  const [password,setPassword] = useState("");
+  const [confirm_passwod, setConfirmPassword] = useState("");
+
+  const KurirState = useSelector((state:RootState)=> state.kurir.single);
+
+  let history = useHistory();
+  const search = history.location.search;
+  const params = new URLSearchParams(search);
+  const paramID = params.get("id") ?? "";
+  const formvalue = KurirState ?? [];
+
+  useEffect(() => {
+    dispatch(getKurirSingle(paramID));
+  }, []);
+
+
+  useEffect(() => {
+    if (KurirState !== undefined) {
+      setName(KurirState.name);
+      setEmail(KurirState.email);
+      setPhone(KurirState.phoneNumber);
+      setAddress(KurirState.address);
+      setProvince(KurirState.province);
+      setDistrict(KurirState.district);
+      setSubDistrict(KurirState.subDistrict);
+      setCity(KurirState.city);
+      setPostalCode(KurirState.postal_code);
+      setStatus(KurirState.status);
+      setNopol(KurirState.nopol);
+      setUsername(KurirState.username);
+      setPassword(KurirState.password);
+      setConfirmPassword(KurirState.confirm_passwod);
+    }
+  }, [KurirState !== undefined]);
 
   return (
     <Container fluid>
@@ -37,36 +83,37 @@ const KurirDetailPage = () => {
               <Form>
                 <Form.Field>
                   <label>Nama</label>
-                  <input placeholder="Nama" />
+                  <input placeholder="Nama" value={name} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" />
+                  <input placeholder="Email" value={email} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <input placeholder="Telepon" />
+                  <input placeholder="Telepon" value={phone} readOnly/>
                 </Form.Field>
-                <Form.TextArea label="Alamat" placeholder="" />
+                <Form.TextArea label="Alamat" placeholder="" value={address} readOnly />
 
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" value={province} readOnly/>
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" value={district} readOnly />
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
-                  <Form.Input fluid label="Kota" placeholder="Kota" />
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" value={subDistrict} readOnly />
+                  <Form.Input fluid label="Kota" placeholder="Kota" value={city} readOnly />
                 </Form.Group>
                 <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" value={postalcode} readOnly/>
                 </Form.Group>
                 <Form.Group widths={2}>
-                  <Form.Select
+                  {/* <Form.Select
                     fluid
                     label="Status"
                     options={options}
                     placeholder="Aktif"
-                  />
+                  /> */}
+                   <Form.Input fluid label="Status" placeholder="Status" value={status} readOnly/>
                 </Form.Group>
               </Form>
             </div>
@@ -127,7 +174,7 @@ const KurirDetailPage = () => {
               <Form>
                 <Form.Field>
                   <label>Nomor Polisi</label>
-                  <input placeholder="Nomor Polisi" />
+                  <input placeholder="Nomor Polisi" value={nopol} readOnly/>
                 </Form.Field>
               </Form>
             </div>
@@ -137,11 +184,11 @@ const KurirDetailPage = () => {
               <Form>
                 <Form.Field>
                   <label>Username</label>
-                  <input placeholder="Username" />
+                  <input placeholder="Username" value={username} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <input placeholder="Password" type="password" />
+                  <input placeholder="Password" type="password" value={password} readOnly/>
                 </Form.Field>
                 <Form.Field>
                   <label>Confirm Password</label>

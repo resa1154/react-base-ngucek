@@ -9,7 +9,23 @@ import Kurir from "../../Kurir/containers/KurirPage";
 import MitraDetail from "../../Mitra/containers/MitraDetailPage";
 import MitraCreate from "../../Mitra/containers/MitraCreate";
 import KurirDetail from "../../Kurir/containers/KurirDetailPage";
-
+import ServiceCategory from "../../ServiceCategory/containers/ServiceCategoryPage";
+import ServiceCategoryDetail from "../../ServiceCategory/containers/ServiceCategoryDetail";
+import ServiceCategoryCreate from "../../ServiceCategory/containers/ServiceCreateCategory";
+import Service from "../../ServiceCategory/containers/Service";
+import ServiceCreate from "../../ServiceCategory/containers/ServiceCreate";
+import ServiceDetail from "../../ServiceCategory/containers/ServiceDetail";
+import Store from "../../Store/containers/Store";
+import StoreSetting from "../../Store/containers/StoreSetting";
+import MitraSurveyor from "../../Mitra/containers/MitraSurveyor";
+import RoleSystem from "../../Role/containers/RolePage";
+import RoleSystemDetail from "../../Role/containers/RoleDetail";
+import RoleSystemCreate from "../../Role/containers/RoleCreate";
+import UserSystem from "../../User/containers/UserPage";
+import UserSystemCreate from "../../User/containers/UserCreate";
+import Customer from "../../Customer/containers/CustomerPage";
+import CustomerDetail from "../../Customer/containers/CustomerDetailPage";
+import CustomerCreate from "../../Customer/containers/CustomerCreate";
 // import "../containers/LeftMenu.css";
 
 const AdminPanel = () => {
@@ -124,6 +140,23 @@ const AdminPanel = () => {
           <Route path="/MitraCreate" component={MitraCreate}/>
           <Route path="/Kurir" component={Kurir} />
           <Route path="/KurirDetail" component={KurirDetail} />
+          <Route path="/ServiceCategory" component={ServiceCategory}/>
+          <Route path="/ServiceCategoryDetail" component={ServiceCategoryDetail}/>
+          <Route path="/ServiceCategoryCreate" component={ServiceCategoryCreate}/>
+          <Route path="/Service" component={Service}/>
+          <Route path="/ServiceCreate" component={ServiceCreate}/>
+          <Route path="/ServiceDetail" component={ServiceDetail}/>
+          <Route path="/Store" component={Store}/>
+          <Route path="/StoreSetting" component={StoreSetting}/>
+          <Route path="/MitraSurveyor" component={MitraSurveyor}/>
+          <Route path="/Role" component={RoleSystem}/>
+          <Route path="/RoleCreate" component={RoleSystemCreate}/>
+          <Route path="/RoleDetail" component={RoleSystemDetail}/>
+          <Route path="/User" component={UserSystem}/>
+          <Route path="/UserCreate" component={UserSystemCreate} />
+          <Route path="/Customer" component={Customer}/>
+          <Route path="/CustomerDetail" component={CustomerDetail}/>
+          <Route path="/CustomerCreate" component={CustomerCreate}/>
         </Switch>
       </div>
     </div>

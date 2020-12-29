@@ -1,0 +1,45 @@
+.tab-container{
+    padding: 20px;
+}
+
+.ui.tabular.menu .item{
+    color: black !important;
+}
+
+/* .form-content{
+    margin: 16px 0;
+} */
+
+.form-store{
+    margin: 16px 0;
+}
+
+.checkbox-container{
+    margin-right: 10px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.status-store{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-store h1{
+    margin-bottom: 0;
+}
+
+.status-store h1 span{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-color: green;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.weekend-office{
+    padding: 20px 0;
+}
+

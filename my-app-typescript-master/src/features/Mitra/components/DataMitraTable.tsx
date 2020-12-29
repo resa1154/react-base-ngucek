@@ -16,7 +16,7 @@ const DataMitraTable = () => {
     const [dataMitraState, setDataMitraState] = useState([]);
     const [pagination, setPagination] = useState<PaginationInt>({
       page: 1,
-      limit: 2
+      limit: 20
     });
 
     const MitraList = [{
@@ -95,10 +95,10 @@ const DataMitraTable = () => {
     
     const indexOfLastPage  = pagination.page * pagination.limit;
     const indexOfFirstPage = indexOfLastPage  - pagination.limit;
-    const PagingMitra    = dataMitraState.slice(indexOfFirstPage, indexOfLastPage  );
+    const PagingMitra = dataMitraState.slice(indexOfFirstPage, indexOfLastPage  );
 
       const renderItemsTableRow = () =>{
-          return PagingMitra .map((td:any) => (
+          return PagingMitra.map((td:any) => (
             <Table.Row key={td.id}>
             <Table.Cell>{td.no}</Table.Cell>
             <Table.Cell>{td.status}</Table.Cell>

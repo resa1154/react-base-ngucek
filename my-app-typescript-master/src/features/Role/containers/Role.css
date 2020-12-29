@@ -1,0 +1,12 @@
+.card-content-item{
+    margin: 20px 0;
+}
+
+.title-card{
+    display: inline-flex;
+}
+
+.title-card h3{
+    margin: 0;
+    margin-left: 15px;
+}

@@ -80,7 +80,7 @@ const mitraSlice = createSlice({
         state.isLoading = false;
     });
     builder.addCase(getMitraSingle.fulfilled, (state, { payload }) => {
-        state.single = payload;
+        state.single = payload[0];
         state.isLoading = false;
       });
     builder.addCase(getDataMitra.rejected, (state, {payload}) => {

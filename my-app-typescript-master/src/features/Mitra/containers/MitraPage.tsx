@@ -48,6 +48,7 @@ useEffect(() => {
 
 const getFilteredData = (datainput:any) => {
   const datafilter = MitraFilterState ?? [];
+  console.log("data filter:"+datafilter)
   const filteredData = datafilter.filter(
     (find:{
       nama:{toString: () => string};
@@ -56,7 +57,6 @@ const getFilteredData = (datainput:any) => {
   
     return filteredData;
     console.log(filteredData);
-
   }
 
 const onSubmit = (
@@ -69,6 +69,7 @@ const onSubmit = (
 const FormFilterSubmit = getFilteredData({ownerName, status});
 console.log("ini submit");
 console.log(FormFilterSubmit);
+console.log("end submit");
 dispatch(setFilter(FormFilterSubmit));
 //   dispatch(setData ([
 //     {

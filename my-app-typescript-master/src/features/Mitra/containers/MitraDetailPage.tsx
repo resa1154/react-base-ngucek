@@ -7,6 +7,7 @@ import {
   Form,
   Grid,
   Modal,
+  Icon,
 } from "semantic-ui-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
@@ -14,8 +15,8 @@ import { Link, useHistory } from "react-router-dom";
 import "../containers/Mitra.css";
 import ReactDatePicker from "react-datepicker";
 import Viewer from "react-viewer";
-import { getMitraSingle} from "../mitra.reducer";
-import { useLocation } from 'react-router-dom';
+import { getMitraSingle } from "../mitra.reducer";
+import { useLocation } from "react-router-dom";
 
 const MitraDetailPage = () => {
   const [startYear, setStartYear] = useState(new Date());
@@ -27,7 +28,7 @@ const MitraDetailPage = () => {
 
   const dispatch = useDispatch();
   //
-  const [nama, setName] = useState('');
+  const [nama, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [no_nik, setNo_Nik] = useState("-");
@@ -40,13 +41,13 @@ const MitraDetailPage = () => {
   const [province, setProvince] = useState("");
   const [District, setDistrict] = useState("");
   const [subDistrict, setsubDistrict] = useState("");
-  const [city,setCity] = useState("");
-  const [postal_code,setPostalCode] = useState("");
+  const [city, setCity] = useState("");
+  const [postal_code, setPostalCode] = useState("");
   const [companySince, setCompanySince] = useState("");
   const [date, setDate] = useState("");
 
   const MitraState = useSelector((state: RootState) => state.mitra.single);
-  console.log(MitraState)
+  console.log(MitraState);
 
   // const[stateValue,setStateValue] = useState(MitraState ?? {});
   const location = useLocation();
@@ -55,36 +56,37 @@ const MitraDetailPage = () => {
   const search = history.location.search;
   const params = new URLSearchParams(search);
   const paramID = params.get("id") ?? "";
-  console.log("ID mitra :"+idMitra, "ParamID :" +paramID)
+  console.log("ID mitra :" + idMitra, "ParamID :" + paramID);
   const formvalue = MitraState ?? [];
-  
-  console.log("ini formvalue :" +formvalue.nama)
 
-  useEffect(()=>{
-  dispatch(getMitraSingle(paramID));
-}, []);
+  console.log("ini formvalue :" + formvalue.nama);
 
-useEffect(()=>{
-  if(MitraState !== undefined){
-    setName(MitraState.nama);
-  }
+  useEffect(() => {
+    dispatch(getMitraSingle(paramID));
+  }, []);
 
-},[MitraState !== undefined]);
+  useEffect(() => {
+    if (MitraState !== undefined) {
+      setName(MitraState.nama);
+      setEmail(MitraState.email);
+      setPhoneNumber(MitraState.phoneNumber);
+      setNo_Nik(MitraState.no_nik);
+      setNpwp(MitraState.npwp);
+    }
+  }, [MitraState !== undefined]);
 
-
-
-  // useEffect(() =>{
-  //   if ( MitraState !== undefined) {
-  //   setName(MitraState.nama);
-  //   setEmail(MitraState.email);
-  //   }
-  // },[MitraState !== undefined])
-
-//   useEffect(() => {
-//     if ( MitraState !== undefined) {
-//       setName(MitraState.nama)
-//     }
-// }, [ MitraState !== undefined])
+  const downloadFile = () => {
+    var element = document.createElement("a");
+    var file = new Blob(
+      [
+        // "https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+      ],
+      { type: "image/*" }
+    );
+    element.href = URL.createObjectURL(file);
+    element.download = "image.jpg";
+    element.click();
+  };
 
   const onSubmit = (
     name: string,
@@ -102,13 +104,59 @@ useEffect(()=>{
     // );
   };
 
-  return (
-    <Container fluid>
-      <Menu secondary className="menu-header">
+  const renderButton = () =>{
+    if(formvalue.status === "Verified"){
+      return (
+        <Menu.Menu position="right">
         <Menu.Item>
-          <h3 className="h3">Business Partner - Request Detail</h3>
+          <Button color="teal" as={Link} to="/Mitra">
+            Cancel
+          </Button>
         </Menu.Item>
-
+        <Menu.Item>
+          {/* <Button color="teal">Reject</Button> */}
+          <Modal
+            closeIcon
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            open={open}
+            size="small"
+            trigger={<Button color="teal">Reject</Button>}
+          >
+            <Modal.Header className="modal-header">
+              Konfirmasi Penolakan Pendaftaran
+            </Modal.Header>
+            <Modal.Content>
+              <Form>
+                <Form.TextArea
+                  label="Alasan Penolakan"
+                  placeholder=""
+                  style={{ minHeight: 120 }}
+                />
+              </Form>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                color="teal"
+                onClick={() => setOpen(false)}
+                as={Link}
+                to="/Mitra"
+              >
+                Confirm
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        </Menu.Item>
+        <Menu.Item>
+          {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
+          <Button color="teal" as={Link} to="/Mitra">
+            Approved
+          </Button>
+        </Menu.Item>
+      </Menu.Menu>
+      );
+    } else if(formvalue.status === "Request" || formvalue.status === "Survey") {
+      return(
         <Menu.Menu position="right">
           <Menu.Item>
             <Button color="teal" as={Link} to="/Mitra">
@@ -116,7 +164,30 @@ useEffect(()=>{
             </Button>
           </Menu.Item>
           <Menu.Item>
-            {/* <Button color="teal">Reject</Button> */}
+            <Button color="teal" as={Link} to="/Mitra">Verify</Button>
+          </Menu.Item>
+        </Menu.Menu>
+      );
+    }
+  }
+
+
+  return (
+    <Container fluid>
+      <Menu secondary className="menu-header">
+        <Menu.Item>
+          <h3 className="h3">Business Partner - Request Detail</h3>
+        </Menu.Item>
+
+      {renderButton()}
+      {/* <Menu.Menu position="right">
+          <Menu.Item>
+            <Button color="teal" as={Link} to="/Mitra">
+              Cancel
+            </Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button color="teal">Reject</Button>
             <Modal
               closeIcon
               onClose={() => setOpen(false)}
@@ -150,10 +221,14 @@ useEffect(()=>{
             </Modal>
           </Menu.Item>
           <Menu.Item>
-            {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
-             <Button color="teal" as={Link} to="/Mitra">Approved</Button>
+            <Button color="teal" as={Link} to="/Mitra">Verify</Button>
+            <Button color="teal" as={Link} to="/Mitra">
+              Approved
+            </Button>
           </Menu.Item>
-        </Menu.Menu>
+        </Menu.Menu> */}
+
+        
       </Menu>
       <Grid>
         <Grid.Row columns={2} only="computer">
@@ -163,23 +238,23 @@ useEffect(()=>{
               <Form>
                 <Form.Field>
                   <label>Nama Lengkap</label>
-                  <Form.Input placeholder="Name" value={nama} readOnly/>
+                  <Form.Input placeholder="Name" value={nama} readOnly />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" value={formvalue.email} readOnly/>
+                  <input placeholder="Email" value={email} readOnly />
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <input placeholder="Telepon" value={formvalue.phoneNumber} readOnly/>
+                  <input placeholder="Telepon" value={phoneNumber} readOnly />
                 </Form.Field>
                 <Form.Field>
                   <label>NIK</label>
-                  <input placeholder="NIK" value={formvalue.no_nik} readOnly/>
+                  <input placeholder="NIK" value={no_nik} readOnly />
                 </Form.Field>
                 <Form.Field>
                   <label>NPWP (Optional)</label>
-                  <input placeholder="NPWP" value={formvalue.npwp} readOnly/>
+                  <input placeholder="NPWP" value={npwp} readOnly />
                 </Form.Field>
               </Form>
             </div>
@@ -211,6 +286,15 @@ useEffect(()=>{
                     ]}
                   />
                   <p className="title-image">KTP</p>
+
+                  <Button color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                   <Icon name="download"></Icon> Download
+                  </Button>
                 </div>
                 <div className="image-content">
                   <Image
@@ -220,7 +304,7 @@ useEffect(()=>{
                       setImgVisible1(true);
                     }}
                   />
-                    <Viewer
+                  <Viewer
                     visible={imgVisible1}
                     onClose={() => {
                       setImgVisible1(false);
@@ -234,6 +318,15 @@ useEffect(()=>{
                     ]}
                   />
                   <p className="title-image">NPWP (Opsional) </p>
+
+                  <Button color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                   <Icon name="download"></Icon> Download
+                  </Button>
                 </div>
                 <div className="image-content">
                   <Image
@@ -243,7 +336,7 @@ useEffect(()=>{
                       setImgVisible2(true);
                     }}
                   />
-                    <Viewer
+                  <Viewer
                     visible={imgVisible2}
                     attribute={false}
                     onClose={() => {
@@ -258,6 +351,14 @@ useEffect(()=>{
                     ]}
                   />
                   <p className="title-image">Diri (Opsional) </p>
+                  <Button color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                   <Icon name="download"></Icon> Download
+                  </Button>
                 </div>
               </Image.Group>
             </div>
@@ -273,19 +374,31 @@ useEffect(()=>{
               <Form>
                 <Form.Field>
                   <label>Nama Perusahaan</label>
-                  <input placeholder="Nama Perusahaan" value={formvalue.companyName} readOnly/>
+                  <input
+                    placeholder="Nama Perusahaan"
+                    value={formvalue.companyName}
+                    readOnly
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Nama Toko</label>
-                  <input placeholder="Nama Toko" value={formvalue.shopName} readOnly/>
+                  <input
+                    placeholder="Nama Toko"
+                    value={formvalue.shopName}
+                    readOnly
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <input placeholder="Telepon" value={formvalue.phoneNumber} readOnly/>
+                  <input
+                    placeholder="Telepon"
+                    value={formvalue.phoneNumber}
+                    readOnly
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" value={formvalue.email} readOnly/>
+                  <input placeholder="Email" value={formvalue.email} readOnly />
                 </Form.Field>
                 <Form.Group widths={2}>
                   <Form.Field>
@@ -302,15 +415,35 @@ useEffect(()=>{
                 <Form.Checkbox label="Memiliki Kurir" />
 
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" readOnly/>
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan"  readOnly/>
+                  <Form.Input
+                    fluid
+                    label="Provinsi"
+                    placeholder="Provinsi"
+                    readOnly
+                  />
+                  <Form.Input
+                    fluid
+                    label="Kecamatan"
+                    placeholder="Kecamatan"
+                    readOnly
+                  />
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan"  readOnly/>
-                  <Form.Input fluid label="Kota" placeholder="Kota"  />
+                  <Form.Input
+                    fluid
+                    label="Kelurahan"
+                    placeholder="Kelurahan"
+                    readOnly
+                  />
+                  <Form.Input fluid label="Kota" placeholder="Kota" />
                 </Form.Group>
                 <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos"  readOnly/>
+                  <Form.Input
+                    fluid
+                    label="Kode Pos"
+                    placeholder="Kode Pos"
+                    readOnly
+                  />
                 </Form.Group>
                 <Form.TextArea label="Alamat" placeholder="Alamat" readOnly />
                 <Form.Field>
@@ -326,7 +459,6 @@ useEffect(()=>{
                     // tabindex="0"
                   ></iframe>
                 </Form.Field>
-          
               </Form>
             </div>
           </Grid.Column>
