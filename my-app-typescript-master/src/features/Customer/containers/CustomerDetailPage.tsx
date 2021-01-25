@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   Icon,
+  Checkbox,
 } from "semantic-ui-react";
 import Viewer from "react-viewer";
 import "../containers/Customer.css";

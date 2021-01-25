@@ -46,6 +46,11 @@ const MitraDetailPage = () => {
   const [companySince, setCompanySince] = useState("");
   const [date, setDate] = useState("");
 
+  const [showPassword,setShowPassword] = useState("");
+  const [showPassword1,setShowPassword1] = useState("");
+  const [showPassword2,setShowPassword2] = useState("");
+  const [showPassword3,setShowPassword3] = useState("");
+
   const MitraState = useSelector((state: RootState) => state.mitra.single);
   console.log(MitraState);
 
@@ -104,59 +109,9 @@ const MitraDetailPage = () => {
     // );
   };
 
-  const renderButton = () =>{
-    if(formvalue.status === "Verified"){
+  const renderButton = () => {
+    if (formvalue.status === "Verified") {
       return (
-        <Menu.Menu position="right">
-        <Menu.Item>
-          <Button color="teal" as={Link} to="/Mitra">
-            Cancel
-          </Button>
-        </Menu.Item>
-        <Menu.Item>
-          {/* <Button color="teal">Reject</Button> */}
-          <Modal
-            closeIcon
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            size="small"
-            trigger={<Button color="teal">Reject</Button>}
-          >
-            <Modal.Header className="modal-header">
-              Konfirmasi Penolakan Pendaftaran
-            </Modal.Header>
-            <Modal.Content>
-              <Form>
-                <Form.TextArea
-                  label="Alasan Penolakan"
-                  placeholder=""
-                  style={{ minHeight: 120 }}
-                />
-              </Form>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                color="teal"
-                onClick={() => setOpen(false)}
-                as={Link}
-                to="/Mitra"
-              >
-                Confirm
-              </Button>
-            </Modal.Actions>
-          </Modal>
-        </Menu.Item>
-        <Menu.Item>
-          {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
-          <Button color="teal" as={Link} to="/Mitra">
-            Approved
-          </Button>
-        </Menu.Item>
-      </Menu.Menu>
-      );
-    } else if(formvalue.status === "Request" || formvalue.status === "Survey") {
-      return(
         <Menu.Menu position="right">
           <Menu.Item>
             <Button color="teal" as={Link} to="/Mitra">
@@ -164,13 +119,67 @@ const MitraDetailPage = () => {
             </Button>
           </Menu.Item>
           <Menu.Item>
-            <Button color="teal" as={Link} to="/Mitra">Verify</Button>
+            {/* <Button color="teal">Reject</Button> */}
+            <Modal
+              closeIcon
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              open={open}
+              size="small"
+              trigger={<Button color="teal">Reject</Button>}
+            >
+              <Modal.Header className="modal-header">
+                Konfirmasi Penolakan Pendaftaran
+              </Modal.Header>
+              <Modal.Content>
+                <Form>
+                  <Form.TextArea
+                    label="Alasan Penolakan"
+                    placeholder=""
+                    style={{ minHeight: 120 }}
+                  />
+                </Form>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  color="teal"
+                  onClick={() => setOpen(false)}
+                  as={Link}
+                  to="/Mitra"
+                >
+                  Confirm
+                </Button>
+              </Modal.Actions>
+            </Modal>
+          </Menu.Item>
+          <Menu.Item>
+            {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
+            <Button color="teal" as={Link} to="/Mitra">
+              Approved
+            </Button>
+          </Menu.Item>
+        </Menu.Menu>
+      );
+    } else if (
+      formvalue.status === "Request" ||
+      formvalue.status === "Survey"
+    ) {
+      return (
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button color="teal" as={Link} to="/Mitra">
+              Cancel
+            </Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button color="teal" as={Link} to="/Mitra">
+              Verify
+            </Button>
           </Menu.Item>
         </Menu.Menu>
       );
     }
-  }
-
+  };
 
   return (
     <Container fluid>
@@ -179,8 +188,8 @@ const MitraDetailPage = () => {
           <h3 className="h3">Business Partner - Request Detail</h3>
         </Menu.Item>
 
-      {renderButton()}
-      {/* <Menu.Menu position="right">
+        {renderButton()}
+        {/* <Menu.Menu position="right">
           <Menu.Item>
             <Button color="teal" as={Link} to="/Mitra">
               Cancel
@@ -227,8 +236,6 @@ const MitraDetailPage = () => {
             </Button>
           </Menu.Item>
         </Menu.Menu> */}
-
-        
       </Menu>
       <Grid>
         <Grid.Row columns={2} only="computer">
@@ -258,117 +265,7 @@ const MitraDetailPage = () => {
                 </Form.Field>
               </Form>
             </div>
-          </Grid.Column>
-          <Grid.Column>
-            <div className="form-content">
-              <p className="title-content">Owner Photos</p>
-              <Image.Group className="image-container">
-                <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                    onClick={() => {
-                      setImgVisible(true);
-                    }}
-                  />
-                  {/* <button onClick={() => { setVisible(true); } }>show</button> */}
-                  <Viewer
-                    visible={imgVisible}
-                    onClose={() => {
-                      setImgVisible(false);
-                    }}
-                    images={[
-                      {
-                        src:
-                          "https://react.semantic-ui.com/images/wireframe/image.png",
-                        alt: "",
-                      },
-                    ]}
-                  />
-                  <p className="title-image">KTP</p>
 
-                  <Button color="teal"
-                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
-                    download
-                    onClick={() => downloadFile()}
-                    target="_Blank"
-                  >
-                   <Icon name="download"></Icon> Download
-                  </Button>
-                </div>
-                <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                    onClick={() => {
-                      setImgVisible1(true);
-                    }}
-                  />
-                  <Viewer
-                    visible={imgVisible1}
-                    onClose={() => {
-                      setImgVisible1(false);
-                    }}
-                    images={[
-                      {
-                        src:
-                          "https://react.semantic-ui.com/images/wireframe/image.png",
-                        alt: "",
-                      },
-                    ]}
-                  />
-                  <p className="title-image">NPWP (Opsional) </p>
-
-                  <Button color="teal"
-                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
-                    download
-                    onClick={() => downloadFile()}
-                    target="_Blank"
-                  >
-                   <Icon name="download"></Icon> Download
-                  </Button>
-                </div>
-                <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                    onClick={() => {
-                      setImgVisible2(true);
-                    }}
-                  />
-                  <Viewer
-                    visible={imgVisible2}
-                    attribute={false}
-                    onClose={() => {
-                      setImgVisible2(false);
-                    }}
-                    images={[
-                      {
-                        src:
-                          "https://react.semantic-ui.com/images/wireframe/image.png",
-                        alt: "",
-                      },
-                    ]}
-                  />
-                  <p className="title-image">Diri (Opsional) </p>
-                  <Button color="teal"
-                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
-                    download
-                    onClick={() => downloadFile()}
-                    target="_Blank"
-                  >
-                   <Icon name="download"></Icon> Download
-                  </Button>
-                </div>
-              </Image.Group>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-
-      <Grid>
-        <Grid.Row columns={2}>
-          <Grid.Column>
             <div className="form-content">
               <p className="title-content">Store Info</p>
               <Form>
@@ -388,6 +285,11 @@ const MitraDetailPage = () => {
                     readOnly
                   />
                 </Form.Field>
+
+                <Form.Field>
+                  <label>Email</label>
+                  <input placeholder="Email" value={formvalue.email} readOnly />
+                </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
                   <input
@@ -396,24 +298,6 @@ const MitraDetailPage = () => {
                     readOnly
                   />
                 </Form.Field>
-                <Form.Field>
-                  <label>Email</label>
-                  <input placeholder="Email" value={formvalue.email} readOnly />
-                </Form.Field>
-                <Form.Group widths={2}>
-                  <Form.Field>
-                    <label>Tahun Berdiri</label>
-
-                    <ReactDatePicker
-                      selected={startYear}
-                      onChange={(date) => setStartYear(date as Date)}
-                      showYearPicker
-                      dateFormat="yyyy"
-                    ></ReactDatePicker>
-                  </Form.Field>
-                </Form.Group>
-                <Form.Checkbox label="Memiliki Kurir" />
-
                 <Form.Group widths="equal">
                   <Form.Input
                     fluid
@@ -459,10 +343,178 @@ const MitraDetailPage = () => {
                     // tabindex="0"
                   ></iframe>
                 </Form.Field>
+                <Form.Group widths={2}>
+                  <Form.Field>
+                    <label>Tahun Berdiri</label>
+                    <ReactDatePicker
+                      placeholderText="Click to select a date"
+                      selected={startYear}
+                      onChange={(date) => setStartYear(date as Date)}
+                      showYearPicker
+                      dateFormat="yyyy"
+                    ></ReactDatePicker>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Checkbox label="Memiliki Kurir" />
               </Form>
             </div>
+            <div className="form-content">
+              <p className="title-content">Foto Kurir</p>
+              <Image.Group className="image-container">
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">KTP</p>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">Diri (Opsional) </p>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">Foto Motor (Opsional) </p>
+                </div>
+              </Image.Group>
+              <Image.Group className="image-container">
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">STNK (Opsional)</p>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">SIM </p>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">BPKB (Opsional) </p>
+                </div>
+              </Image.Group>
+            </div>
+
           </Grid.Column>
           <Grid.Column>
+            <div className="form-content">
+              <p className="title-content">Owner Photos</p>
+              <Image.Group className="image-container">
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                    onClick={() => {
+                      setImgVisible(true);
+                    }}
+                  />
+                  {/* <button onClick={() => { setVisible(true); } }>show</button> */}
+                  <Viewer
+                    visible={imgVisible}
+                    onClose={() => {
+                      setImgVisible(false);
+                    }}
+                    images={[
+                      {
+                        src:
+                          "https://react.semantic-ui.com/images/wireframe/image.png",
+                        alt: "",
+                      },
+                    ]}
+                  />
+                  <p className="title-image">KTP</p>
+
+                  <Button
+                    color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                    <Icon name="download"></Icon> Download
+                  </Button>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                    onClick={() => {
+                      setImgVisible1(true);
+                    }}
+                  />
+                  <Viewer
+                    visible={imgVisible1}
+                    onClose={() => {
+                      setImgVisible1(false);
+                    }}
+                    images={[
+                      {
+                        src:
+                          "https://react.semantic-ui.com/images/wireframe/image.png",
+                        alt: "",
+                      },
+                    ]}
+                  />
+                  <p className="title-image">NPWP (Opsional) </p>
+
+                  <Button
+                    color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                    <Icon name="download"></Icon> Download
+                  </Button>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                    onClick={() => {
+                      setImgVisible2(true);
+                    }}
+                  />
+                  <Viewer
+                    visible={imgVisible2}
+                    attribute={false}
+                    onClose={() => {
+                      setImgVisible2(false);
+                    }}
+                    images={[
+                      {
+                        src:
+                          "https://react.semantic-ui.com/images/wireframe/image.png",
+                        alt: "",
+                      },
+                    ]}
+                  />
+                  <p className="title-image">Diri (Opsional) </p>
+                  <Button
+                    color="teal"
+                    href="https://timesofindia.indiatimes.com/thumb/msid-70238371,imgsize-89579,width-400,resizemode-4/70238371.jpg"
+                    download
+                    onClick={() => downloadFile()}
+                    target="_Blank"
+                  >
+                    <Icon name="download"></Icon> Download
+                  </Button>
+                </div>
+              </Image.Group>
+            </div>
             <div className="form-content">
               <p className="title-content">Store Photos</p>
               <Image.Group className="image-container">
@@ -493,17 +545,102 @@ const MitraDetailPage = () => {
               <p className="title-content">Social Media</p>
               <Form>
                 <Form.Field>
-                  <label>Website</label>
+                  <label>Instagram</label>
                   <input />
                 </Form.Field>
                 <Form.Field>
-                  <label>Youtube</label>
+                  <label>Facebook</label>
                   <input />
+                </Form.Field>
+              </Form>
+            </div>
+            <div className="form-content">
+              <p className="title-content">Akun</p>
+              <Form>
+                <Form.Field>
+                  <label>Nomor Tlp / Email</label>
+                  <Form.Input />
                 </Form.Field>
                 <Form.Field>
-                  <label>Twitter</label>
-                  <input />
+                  <label>Password</label>
+                  <Form.Input type={showPassword ? "text" : "password"} icon={
+                        <Icon name={showPassword ? "eye slash" : "eye"}/>
+                      }/>
                 </Form.Field>
+                <Form.Field>
+                  <label>Confirm Password</label>
+                  <Form.Input type={showPassword1 ? "text" : "password"} icon={
+                        <Icon name={showPassword1 ? "eye slash" : "eye"}/>
+                      }/>
+                </Form.Field>
+              </Form>
+            </div>
+            <div className="form-content">
+              <p className="title-content">Info Kurir</p>
+              <Form>
+                <Form.Field>
+                  <label>Nama</label>
+                  <Form.Input placeholder="Nama" />
+                </Form.Field>
+                <Form.Field>
+                  <label>Email</label>
+                  <Form.Input placeholder="Email" />
+                </Form.Field>
+                <Form.Field>
+                  <label>Telepon</label>
+                  <Form.Input placeholder="Telepon" />
+                </Form.Field>
+                <Form.TextArea label="Alamat" placeholder="" />
+
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
+                  <Form.Input fluid label="Kota" placeholder="Kota" />
+                </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+                </Form.Group>
+                <Form.Group widths={2}>
+                  {/* <Form.Select
+                    fluid
+                    label="Status"
+                    options={options}
+                    placeholder="Aktif"
+                  /> */}
+                  <Form.Input fluid label="Status" placeholder="Status" />
+                </Form.Group>
+                <div className="form-content form-store">
+                  <p className="title-content">Info Kendaraan</p>
+                  <Form.Field>
+                    <label>Nomor Polisi</label>
+                    <input placeholder="Nomor Polisi" />
+                  </Form.Field>
+                </div>
+
+                <div className="form-content form-store">
+                  <p className="title-content">Akun</p>
+                  <Form>
+                    <Form.Field>
+                      <label>Nomor Tlp / Email</label>
+                      <Form.Input />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Password</label>
+                      <Form.Input type={showPassword2 ? "text" : "password"} icon={
+                        <Icon name={showPassword2 ? "eye slash" : "eye"}/>
+                      }/>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Confirm Password</label>
+                      <Form.Input type={showPassword3 ? "text" : "password"} icon={
+                        <Icon name={showPassword3 ? "eye slash" : "eye"}/>
+                      }/>
+                    </Form.Field>
+                  </Form>
+                </div>
               </Form>
             </div>
           </Grid.Column>

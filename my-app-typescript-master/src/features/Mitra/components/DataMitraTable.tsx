@@ -100,13 +100,13 @@ const DataMitraTable = () => {
       const renderItemsTableRow = () =>{
           return PagingMitra.map((td:any) => (
             <Table.Row key={td.id}>
-            <Table.Cell>{td.no}</Table.Cell>
+            {/* <Table.Cell>{td.no}</Table.Cell> */}
             <Table.Cell>{td.status}</Table.Cell>
             <Table.Cell>{td.date}</Table.Cell>
             <Table.Cell>{td.nama}</Table.Cell>
             <Table.Cell>{td.email}</Table.Cell>
             <Table.Cell>{td.phoneNumber}</Table.Cell>
-            <Table.Cell>{td.address}</Table.Cell>
+            <Table.Cell>{td.shopName}</Table.Cell>
             <Table.Cell>
                 <Link to={{
                     pathname:"/MitraDetail" ,
@@ -129,13 +129,13 @@ const DataMitraTable = () => {
         <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>No</Table.HeaderCell>
+            {/* <Table.HeaderCell>No</Table.HeaderCell> */}
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Date</Table.HeaderCell>
             <Table.HeaderCell>Owner's Name</Table.HeaderCell>
             <Table.HeaderCell>Owner's Email</Table.HeaderCell>
             <Table.HeaderCell>Owner's Phone</Table.HeaderCell>
-            <Table.HeaderCell>Store Address</Table.HeaderCell>
+            <Table.HeaderCell>Type Of Laundry</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>

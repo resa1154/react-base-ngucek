@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Menu, Button, Grid, Form, Image } from "semantic-ui-react";
+import { Container, Menu, Button, Grid, Form, Image, Icon } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 import { RootState } from "../../../app/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,12 @@ const KurirDetailPage = () => {
   const [nopol, setNopol] = useState("");
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState("");
-  const [confirm_passwod, setConfirmPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+
+  const [showPassword,setShowPassword] = useState("");
+  const [showPassword1,setShowPassword1] = useState("");
+
+  const optionLaundry =[{key:1, text:"Laundry Reguler", value:"reguler"}];
 
   const KurirState = useSelector((state:RootState)=> state.kurir.single);
 
@@ -115,6 +120,18 @@ const KurirDetailPage = () => {
                   /> */}
                    <Form.Input fluid label="Status" placeholder="Status" value={status} readOnly/>
                 </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Select fluid label="Laundry" placeholder="" options={optionLaundry} readOnly/>
+                  <div className="checkbox-container checkbox-center">
+                    <Form.Checkbox
+                      type="checkbox"
+                      id="monday-checkbox"
+                      label="Driver Terkait dengan Mitra"
+                     
+                    />
+                  </div>
+
+                </Form.Group>
               </Form>
             </div>
           </Grid.Column>
@@ -187,12 +204,16 @@ const KurirDetailPage = () => {
                   <input placeholder="Username" value={username} readOnly/>
                 </Form.Field>
                 <Form.Field>
-                  <label>Password</label>
-                  <input placeholder="Password" type="password" value={password} readOnly/>
+                  <label>Password</label>   
+                    <Form.Input placeholder="" value={password} type={showPassword ? "text" : "password"} icon={
+                    <Icon name={showPassword ? "eye slash": "eye"}/>
+                  }/> 
                 </Form.Field>
                 <Form.Field>
                   <label>Confirm Password</label>
-                  <input placeholder="Confirm Password" type="password" />
+                  <Form.Input placeholder="" value={confirmpassword} type={showPassword1 ? "text" : "password"} icon={
+                    <Icon name={showPassword1 ? "eye slash": "eye"}/>
+                  }/>
                 </Form.Field>
               </Form>
             </div>

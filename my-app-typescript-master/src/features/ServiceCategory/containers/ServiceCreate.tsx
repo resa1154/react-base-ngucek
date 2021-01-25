@@ -16,7 +16,7 @@ import { RootState } from "../../../app/store";
 import { createServices } from "../service.reducer";
 import { ServicesModel } from "../model";
 
-const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
+const ServiceCreate = ({ isLoading = false }: DataServicesFormProps) => {
   const [imgCategory, setImgCategory] = useState([]);
   const dispatch = useDispatch();
 
@@ -24,6 +24,29 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
     { key: "kilat", text: "Layanan Kilat", value: "kilat" },
     { key: "express", text: "Layanan Express", value: "express" },
     { key: "biasa", text: "Layanan Biasa", value: "biasa" },
+  ];
+
+  const optionUnit = [
+    {
+      key: 1,
+      text: "/Kg",
+      value: "kg",
+    },
+    {
+      key: 2,
+      text: "/Pcs",
+      value: "pcs",
+    },
+    {
+      key: 3,
+      text: "/Psg",
+      value: "psg",
+    },
+    {
+      key: 4,
+      text: "/M",
+      value: "m",
+    },
   ];
 
   const optionStatus = [
@@ -44,8 +67,9 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
   const [status, setStatus] = useState("");
   const [price, setPrice] = useState("");
   const [partnercommision, setPartnerCommision] = useState("");
+  const [unitcategory, setUnitCategory] = useState("");
 
-  const ServiceState = useSelector((State:RootState) => State.services );
+  const ServiceState = useSelector((State: RootState) => State.services);
 
   const onImageCardChange = (
     imageList: ImageListType,
@@ -63,6 +87,9 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
   };
   const onHeadCategoryChange = (e: any, data: any) => {
     setHeadCategory(data.value);
+  };
+  const onUnitCategoryChange = (e: any, data: any) => {
+    setUnitCategory(data.value);
   };
   const onDescriptionChange = (
     e: ChangeEvent<HTMLTextAreaElement>,
@@ -93,50 +120,64 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
   };
 
   const onSubmit = (
-    id:number,
-    no:number,
-    servicesname:string,
-    headcategory:string,
-    description:string,
-    note:string,
-    price:string,
-    partnercomission:string
+    id: number,
+    no: number,
+    servicesname: string,
+    headcategory: string,
+    description: string,
+    note: string,
+    price: string,
+    partnercomission: string
   ) => {
-    dispatch(createServices({
-      id:3,
-      no:3,
-      servicesname,
-      headcategory,
-      description,
-      note,
-      price,
-      partnercomission
-    } as ServicesModel));
-  }
+    dispatch(
+      createServices({
+        id: 3,
+        no: 3,
+        servicesname,
+        headcategory,
+        description,
+        note,
+        price,
+        partnercomission,
+      } as ServicesModel)
+    );
+  };
 
   return (
     <Container fluid>
-      <Form loading={isLoading} onSubmit={() => onSubmit(id,no,servicesname,headcategory,description,note,price,partnercommision)} >
-      <Menu secondary className="menu-header">
-        <Menu.Item>
-          <h3 className="h3">Master Data - Service</h3>
-        </Menu.Item>
-
-        <Menu.Menu position="right">
+      <Form
+        loading={isLoading}
+        onSubmit={() =>
+          onSubmit(
+            id,
+            no,
+            servicesname,
+            headcategory,
+            description,
+            note,
+            price,
+            partnercommision
+          )
+        }
+      >
+        <Menu secondary className="menu-header">
           <Menu.Item>
-            <Button color="teal" as={Link} to="/Service">
-              Cancel
-            </Button>
+            <h3 className="h3">Master Data - Service</h3>
           </Menu.Item>
 
-          <Menu.Item>
-            {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
-            <Button color="teal">
-              Save
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Button color="teal" as={Link} to="/Service">
+                Cancel
+              </Button>
+            </Menu.Item>
+
+            <Menu.Item>
+              {/* <Button color="teal" as={Link} to="/Mitra">Verify</Button> */}
+              <Button color="teal">Save</Button>
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
 
         <Grid>
           <Grid.Row columns={2} only="computer">
@@ -160,6 +201,26 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
                   value={headcategory}
                   defaultSelectedLabel={headcategory}
                 />
+                <Form.Dropdown
+                  fluid
+                  label="Satuan"
+                  options={optionUnit}
+                  selection
+                  placeholder="Pilih Satuan"
+                  onChange={onUnitCategoryChange}
+                  value={unitcategory}
+                  defaultSelectedLabel={unitcategory}
+                />
+                <Form.Field>
+                  <label>Batasan Pengerjaan</label>
+                  <div className="group-input">
+                  <Form.Input
+                    placeholder="Batas Pengerjaan"
+                    onChange={onServiceNameChange}
+                  />
+                  <span>Hari</span>
+                  </div>
+                </Form.Field>
                 <Form.TextArea
                   label="Description"
                   placeholder=""
@@ -257,14 +318,14 @@ const ServiceCreate = ({ isLoading = false}:DataServicesFormProps) => {
 
 interface DataServicesFormProps {
   onSubmit: (
-    id:number,
-    no:number,
+    id: number,
+    no: number,
     servicesname: string,
     headcategory: string,
-    description:string,
+    description: string,
     note: string,
     price: string,
-    partnercomision:string
+    partnercomision: string
   ) => void;
   isLoading?: boolean;
 }

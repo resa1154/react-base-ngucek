@@ -36,6 +36,13 @@ const [images_npwp, setImagesNpwp] = useState([]);
 const [images_profil, setImagesProfil] = useState([]);
 const [images_store, setImagesStore] = useState([]);
 
+const [showPassword,setShowPassword] = useState("");
+const [showPassword1,setShowPassword1] = useState("");
+const [showPassword2,setShowPassword2] = useState("");
+const [showPassword3,setShowPassword3] = useState("");
+
+const [active,SetActive] = useState(false);
+
 const onImageCardChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
@@ -148,6 +155,91 @@ const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnCha
   setSocialLink2(value);
 }
 
+const onChangeDriver = (e:any , data:any) => {
+  let checked = data.checked;
+  // if (checked == true){
+  //   className = "display:block"
+  // } else{
+  //   className = "display:none"
+  // }
+  SetActive(checked);
+  console.log(checked);
+  // console.log(data.value);
+}
+
+const renderAddDriver = () => {
+  return(
+    <div className="form-content" >
+    <p className="title-content">Info Kurir</p>
+    <Form >
+      <Form.Field>
+        <label>Nama</label>
+        <Form.Input placeholder="Nama" />
+      </Form.Field>
+      <Form.Field>
+        <label>Email</label>
+        <Form.Input placeholder="Email" />
+      </Form.Field>
+      <Form.Field>
+        <label>Telepon</label>
+        <Form.Input placeholder="Telepon" />
+      </Form.Field>
+      <Form.TextArea label="Alamat" placeholder="" />
+
+      <Form.Group widths="equal">
+        <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
+        <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+      </Form.Group>
+      <Form.Group widths="equal">
+        <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
+        <Form.Input fluid label="Kota" placeholder="Kota" />
+      </Form.Group>
+      <Form.Group widths={2}>
+        <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+      </Form.Group>
+      <Form.Group widths={2}>
+        {/* <Form.Select
+          fluid
+          label="Status"
+          options={options}
+          placeholder="Aktif"
+        /> */}
+        <Form.Input fluid label="Status" placeholder="Status" />
+      </Form.Group>
+      <div className="form-content form-store">
+        <p className="title-content">Info Kendaraan</p>
+        <Form.Field>
+          <label>Nomor Polisi</label>
+          <input placeholder="Nomor Polisi" />
+        </Form.Field>
+      </div>
+
+      <div className="form-content form-store">
+        <p className="title-content">Akun</p>
+        <Form>
+          <Form.Field>
+            <label>Nomor Tlp / Email</label>
+            <Form.Input />
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <Form.Input type={showPassword2 ? "text" : "password"} icon={
+              <Icon name={showPassword2 ? "eye slash" : "eye"}/>
+            }/>
+          </Form.Field>
+          <Form.Field>
+            <label>Confirm Password</label>
+            <Form.Input type={showPassword3 ? "text" : "password"} icon={
+              <Icon name={showPassword3 ? "eye slash" : "eye"}/>
+            }/>
+          </Form.Field>
+        </Form>
+      </div>
+    </Form>
+  </div>
+  )
+}
+
 
   return (
     <Form loading={isLoading} onSubmit={() => props.onSubmit(name,email,no_nik,npwp,companyName,shopName,shopEmail,phoneNumber,province, District, subDistrict,city,postal_code)}>
@@ -177,6 +269,74 @@ const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnCha
                   <label>NPWP (Optional)</label>
                   <Form.Input placeholder="NPWP" onChange={onNpwpChange} value={npwp}/>
                 </Form.Field>
+              </Form>
+            </div>
+            <div className="form-content">
+              <p className="title-content">Store Info</p>
+              <Form >
+                <Form.Field>
+                  <label>Nama Perusahaan</label>
+                  <Form.Input placeholder="Nama Perusahaan" onChange={onCompanyNameChange} value={companyName}/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Nama Toko</label>
+                  <Form.Input placeholder="Nama Toko" onChange={onShopNameChange} value={shopName} />
+                </Form.Field>
+                <Form.Field>
+                  <label>Telepon</label>
+                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Email</label>
+                  <Form.Input placeholder="Email" onChange={onShopEmailChange} value={shopEmail}/>
+                </Form.Field>
+         
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" onChange={onProvinceChange} value={province}/>
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" onChange={onDistricChange} value={District}/>
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" onChange={onSubDistricChange} value={subDistrict} />
+                  <Form.Input fluid label="Kota" placeholder="Kota" onChange={onCityChange} value={city}/>
+                </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" onChange={onPostalChange} value={postal_code} />
+                </Form.Group>
+                <Form.TextArea label="Alamat" placeholder="Alamat" onChange={onAddressChange} value={address}/>
+                <Form.Field>
+                  <label>Map</label>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6028835490106!2d107.56859841431734!3d-6.9379733698426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68ef5257dd90f3%3A0x868caac6bb2f20fb!2sUltimo%20Solution!5e0!3m2!1sen!2sid!4v1604626512281!5m2!1sen!2sid"
+                    width="100%"
+                    height="250"
+                    // frameborder="0"
+                    style={{ border: 0 }}
+                    // allowfullscreen=""
+                    aria-hidden="false"
+                    // tabindex="0"
+                  ></iframe>
+                </Form.Field>
+                <Form.Group widths={2}>
+                  <Form.Field>
+                    <label>Tahun Berdiri</label>
+         
+                    <ReactDatePicker
+                      selected={startYear}
+                      onChange={(date) => setStartYear(date as Date)}
+                      showYearPicker
+                      dateFormat="yyyy"
+                    ></ReactDatePicker>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Checkbox label="Memiliki Kurir" onChange={onChangeDriver}/>
+                <Form.Field>
+                    <label>Jenis Laundry</label>
+                    <Form.Group widths={2}>
+                    <Form.Checkbox label="Laundry Reguler"/>
+                    <Form.Checkbox label="Laundry By Ngucek"/>
+                 </Form.Group>
+                  </Form.Field>
+             
               </Form>
             </div>
           </Grid.Column>
@@ -311,74 +471,6 @@ const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnCha
                 </div>
               </Image.Group>
             </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-
-      <Grid>
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <div className="form-content">
-              <p className="title-content">Store Info</p>
-              <Form >
-                <Form.Field>
-                  <label>Nama Perusahaan</label>
-                  <Form.Input placeholder="Nama Perusahaan" onChange={onCompanyNameChange} value={companyName}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Nama Toko</label>
-                  <Form.Input placeholder="Nama Toko" onChange={onShopNameChange} value={shopName} />
-                </Form.Field>
-                <Form.Field>
-                  <label>Telepon</label>
-                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Email</label>
-                  <Form.Input placeholder="Email" onChange={onShopEmailChange} value={shopEmail}/>
-                </Form.Field>
-                <Form.Group widths={2}>
-                  <Form.Field>
-                    <label>Tahun Berdiri</label>
-         
-                    <ReactDatePicker
-                      selected={startYear}
-                      onChange={(date) => setStartYear(date as Date)}
-                      showYearPicker
-                      dateFormat="yyyy"
-                    ></ReactDatePicker>
-                  </Form.Field>
-                </Form.Group>
-                <Form.Checkbox label="Memiliki Kurir" />
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" onChange={onProvinceChange} value={province}/>
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" onChange={onDistricChange} value={District}/>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" onChange={onSubDistricChange} value={subDistrict} />
-                  <Form.Input fluid label="Kota" placeholder="Kota" onChange={onCityChange} value={city}/>
-                </Form.Group>
-                <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" onChange={onPostalChange} value={postal_code} />
-                </Form.Group>
-                <Form.TextArea label="Alamat" placeholder="Alamat" onChange={onAddressChange} value={address}/>
-                <Form.Field>
-                  <label>Map</label>
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6028835490106!2d107.56859841431734!3d-6.9379733698426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68ef5257dd90f3%3A0x868caac6bb2f20fb!2sUltimo%20Solution!5e0!3m2!1sen!2sid!4v1604626512281!5m2!1sen!2sid"
-                    width="100%"
-                    height="250"
-                    // frameborder="0"
-                    style={{ border: 0 }}
-                    // allowfullscreen=""
-                    aria-hidden="false"
-                    // tabindex="0"
-                  ></iframe>
-                </Form.Field>
-              </Form>
-            </div>
-          </Grid.Column>
-          <Grid.Column>
             <div className="form-content">
               <p className="title-content">Store Photos</p>
               <Image.Group className="image-container">
@@ -446,6 +538,237 @@ const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnCha
               <p className="title-content">Social Media</p>
               <Form>
                 <Form.Field>
+                  <label>Instagram</label>
+                  <Form.Input onChange={onChangeSocialLink} value={social_link}/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Facebook</label>
+                  <Form.Input onChange={onChangeSocialLink1} value={social_link1}/>
+                </Form.Field>
+              </Form>
+            </div>
+            <div className="form-content">
+              <p className="title-content">Akun</p>
+              <Form>
+                <Form.Field>
+                  <label>Nomor Tlp / Email</label>
+                  <Form.Input />
+                </Form.Field>
+                <Form.Field>
+                  <label>Password</label>
+                  <Form.Input type={showPassword ? "text" : "password"} icon={
+                        <Icon name={showPassword ? "eye slash" : "eye"}/>
+                      }/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Confirm Password</label>
+                  <Form.Input type={showPassword1 ? "text" : "password"} icon={
+                        <Icon name={showPassword1 ? "eye slash" : "eye"}/>
+                      }/>
+                </Form.Field>
+              </Form>
+            </div>
+            <div className={active ? 'form-content hidden' :'form-content hidden'} >
+              <p className="title-content">Info Kurir</p>
+              <Form >
+                <Form.Field>
+                  <label>Nama</label>
+                  <Form.Input placeholder="Nama" />
+                </Form.Field>
+                <Form.Field>
+                  <label>Email</label>
+                  <Form.Input placeholder="Email" />
+                </Form.Field>
+                <Form.Field>
+                  <label>Telepon</label>
+                  <Form.Input placeholder="Telepon" />
+                </Form.Field>
+                <Form.TextArea label="Alamat" placeholder="" />
+
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
+                  <Form.Input fluid label="Kota" placeholder="Kota" />
+                </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+                </Form.Group>
+                <Form.Group widths={2}>
+                  {/* <Form.Select
+                    fluid
+                    label="Status"
+                    options={options}
+                    placeholder="Aktif"
+                  /> */}
+                  <Form.Input fluid label="Status" placeholder="Status" />
+                </Form.Group>
+                <div className="form-content form-store">
+                  <p className="title-content">Info Kendaraan</p>
+                  <Form.Field>
+                    <label>Nomor Polisi</label>
+                    <input placeholder="Nomor Polisi" />
+                  </Form.Field>
+                </div>
+
+                <div className="form-content form-store">
+                  <p className="title-content">Akun</p>
+                  <Form>
+                    <Form.Field>
+                      <label>Nomor Tlp / Email</label>
+                      <Form.Input />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Password</label>
+                      <Form.Input type={showPassword2 ? "text" : "password"} icon={
+                        <Icon name={showPassword2 ? "eye slash" : "eye"}/>
+                      }/>
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Confirm Password</label>
+                      <Form.Input type={showPassword3 ? "text" : "password"} icon={
+                        <Icon name={showPassword3 ? "eye slash" : "eye"}/>
+                      }/>
+                    </Form.Field>
+                  </Form>
+                </div>
+              </Form>
+                
+                {/* <button color="teal" onClick={renderAddDriver}>Tambah Driver</button> */}
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+
+      {/* <Grid>
+        <Grid.Row columns={2}>
+          <Grid.Column>
+            <div className="form-content">
+              <p className="title-content">Store Info</p>
+              <Form >
+                <Form.Field>
+                  <label>Nama Perusahaan</label>
+                  <Form.Input placeholder="Nama Perusahaan" onChange={onCompanyNameChange} value={companyName}/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Nama Toko</label>
+                  <Form.Input placeholder="Nama Toko" onChange={onShopNameChange} value={shopName} />
+                </Form.Field>
+                <Form.Field>
+                  <label>Telepon</label>
+                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
+                </Form.Field>
+                <Form.Field>
+                  <label>Email</label>
+                  <Form.Input placeholder="Email" onChange={onShopEmailChange} value={shopEmail}/>
+                </Form.Field>
+                <Form.Group widths={2}>
+                  <Form.Field>
+                    <label>Tahun Berdiri</label>
+         
+                    <ReactDatePicker
+                      selected={startYear}
+                      onChange={(date) => setStartYear(date as Date)}
+                      showYearPicker
+                      dateFormat="yyyy"
+                    ></ReactDatePicker>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Checkbox label="Memiliki Kurir" />
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" onChange={onProvinceChange} value={province}/>
+                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" onChange={onDistricChange} value={District}/>
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" onChange={onSubDistricChange} value={subDistrict} />
+                  <Form.Input fluid label="Kota" placeholder="Kota" onChange={onCityChange} value={city}/>
+                </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" onChange={onPostalChange} value={postal_code} />
+                </Form.Group>
+                <Form.TextArea label="Alamat" placeholder="Alamat" onChange={onAddressChange} value={address}/>
+                <Form.Field>
+                  <label>Map</label>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6028835490106!2d107.56859841431734!3d-6.9379733698426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68ef5257dd90f3%3A0x868caac6bb2f20fb!2sUltimo%20Solution!5e0!3m2!1sen!2sid!4v1604626512281!5m2!1sen!2sid"
+                    width="100%"
+                    height="250"
+                    // frameborder="0"
+                    style={{ border: 0 }}
+                    // allowfullscreen=""
+                    aria-hidden="false"
+                    // tabindex="0"
+                  ></iframe>
+                </Form.Field>
+              </Form>
+            </div>
+          </Grid.Column>
+          <Grid.Column>
+            <div className="form-content">
+              <p className="title-content">Store Photos</p>
+              <Image.Group className="image-container">
+                <div className="image-content">
+            
+                      <ImageUploading
+        multiple
+        value={images_store}
+        onChange={onImageStoreChange}
+      >
+        {({
+          imageList,
+          onImageUpload,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          dragProps
+        }) => (
+          // write your building UI
+          <div className="upload__image-wrapper">
+            <Button
+              style={isDragging ? { color: "red" } : undefined}
+              onClick={onImageUpload}
+              {...dragProps}
+            ><Icon name="upload"/> Upload Files
+            </Button>
+            &nbsp;
+            <div className="image-wrapper">
+            {imageList.map((image, index) => (
+              <div key={index} className="image-item">
+                <Image src={image.dataURL} alt="" size="small" />
+                <div className="image-item__btn-wrapper">
+                  <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
+                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
+                </div>
+              </div>
+            ))}
+            </div>
+          </div>
+        )}
+      </ImageUploading>
+                  <p className="title-image">Foto Daftar Harga</p>
+                </div>
+                {/* <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">Foto 1 </p>
+                </div>
+                <div className="image-content">
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    size="small"
+                  />
+                  <p className="title-image">Foto 2 </p>
+                </div> 
+              </Image.Group>
+            </div>
+            <div className="form-content">
+              <p className="title-content">Social Media</p>
+              <Form>
+                <Form.Field>
                   <label>Website</label>
                   <Form.Input onChange={onChangeSocialLink} value={social_link}/>
                 </Form.Field>
@@ -462,7 +785,7 @@ const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnCha
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      {/* <Button color="teal" floated="right" size="medium" style={{ width: 100 }}>
+      <Button color="teal" floated="right" size="medium" style={{ width: 100 }}>
         create
       </Button> */}
     </Form>

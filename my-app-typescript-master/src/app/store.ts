@@ -9,7 +9,9 @@ import roleSliceReducer, { RoleSlice } from '../features/Role/role.reducer';
 import usersSliceReducer,{ UsersSlice } from '../features/User/user.reducer';
 import customerSliceReducer, { CustomerSlice } from '../features/Customer/customer.reducer';
 import storeSliceReducer, { StoreSlice } from '../features/Store/store.reducer';
-
+import orderSliceReducer, { OrderSlice } from '../features/Order/order.reducer';
+import helpSliceReducer, { HelpSlice } from '../features/Help/help.reducer';
+import termSliceReducer, { TermandConditionSlice } from '../features/Setting/termandcondition.reducer';
 
 export const store = configureStore<RootState>({
     reducer: {
@@ -22,6 +24,9 @@ export const store = configureStore<RootState>({
         dataUser:usersSliceReducer,
         customer:customerSliceReducer,
         store:storeSliceReducer,
+        order:orderSliceReducer,
+        help:helpSliceReducer,
+        term:termSliceReducer
     }
 })
 
@@ -35,6 +40,9 @@ export type RootState = {
     dataUser: UsersSlice;
     customer:CustomerSlice;
     store:StoreSlice;
+    order:OrderSlice;
+    help:HelpSlice;
+    term:TermandConditionSlice;
 }
 
 export type AppThunk<ReturnType = void> = ThunkAction<

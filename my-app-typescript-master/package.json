@@ -6,9 +6,11 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@tinymce/tinymce-react": "^3.8.4",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
+    "@types/react-autocomplete": "^1.8.5",
     "@types/react-datepicker": "^3.1.1",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.11",
@@ -17,8 +19,13 @@
     "canvasjs-react-charts": "^1.0.5",
     "chart.js": "^2.9.4",
     "react": "^17.0.1",
+    "react-autocomplete": "^1.8.1",
+    "react-data-export": "^0.6.0",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
+    "react-geocode": "^0.2.2",
+    "react-google-autocomplete": "^1.2.6",
+    "react-google-maps": "^9.4.5",
     "react-image-viewer-zoom": "^1.0.36",
     "react-images-uploading": "^3.1.2",
     "react-router-dom": "^5.2.0",
@@ -31,7 +38,8 @@
     "semantic-ui-react": "^2.0.1",
     "styled-components": "^5.2.1",
     "typescript": "^4.0.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "xlsx": "^0.16.9"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,6 +67,7 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "@types/react-geocode": "^0.2.0",
     "axios": "^0.21.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5"

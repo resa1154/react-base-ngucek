@@ -2,10 +2,10 @@ import axios from "axios";
 import { CreateDataCustomerSuccessResponse, CustomerModel } from "./model";
 
 export default class CustomerApi{
-    private static endpoint = 'http://my-json-server.typicode.com/resa1154/react-db';
-
+    // private static endpoint = 'http://my-json-server.typicode.com/resa1154/react-db';
+    private static endpoint = 'http://ngucek.ultimosolution.com:9096/api/Customer';
     static getDataCustomer(token:string){
-        return axios.get<any>(this.endpoint + '/Customer', {
+        return axios.get<any>(this.endpoint + '/getList', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -14,7 +14,7 @@ export default class CustomerApi{
     }
 
     static createCustomer(token: string, createUOM: CustomerModel) {
-        return axios.post<CreateDataCustomerSuccessResponse>(this.endpoint + "/Customer", createUOM, {
+        return axios.post<CreateDataCustomerSuccessResponse>(this.endpoint + "/Create", createUOM, {
             headers : {
               Authorization: `Bearer + ${token}`,
             }

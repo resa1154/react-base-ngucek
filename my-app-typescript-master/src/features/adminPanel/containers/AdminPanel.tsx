@@ -26,7 +26,16 @@ import UserSystemCreate from "../../User/containers/UserCreate";
 import Customer from "../../Customer/containers/CustomerPage";
 import CustomerDetail from "../../Customer/containers/CustomerDetailPage";
 import CustomerCreate from "../../Customer/containers/CustomerCreate";
-// import "../containers/LeftMenu.css";
+import OrderReguler from "../../Order/containers/OrderPage";
+import OrderRegulerDetail from "../../Order/containers/OrderDetailPage";
+import OrderEksklusif from "../../Order/containers/OrderPageNgucek";
+import OrderEksklusifDetail from "../../Order/containers/OrderDetailPageNgucek";
+import HelpPage from "../../Help/containers/HelpPage"; 
+import HelpCreate from "../../Help/containers/HelpCreatePage";
+import HelpDetail from "../../Help/containers/HelpDetailPage";
+import TermsandCondition from "../../Setting/containers/TermsandConditionsPage";
+import TermsandConditionsCreate from "../../Setting/containers/TermsandConditonsCreatePage";
+import TermsandConditionsDetail from "../../Setting/containers/TermsandConditionDetailPage";
 
 const AdminPanel = () => {
   const [activeItem, setActiveItem] = useState("home");
@@ -157,6 +166,16 @@ const AdminPanel = () => {
           <Route path="/Customer" component={Customer}/>
           <Route path="/CustomerDetail" component={CustomerDetail}/>
           <Route path="/CustomerCreate" component={CustomerCreate}/>
+          <Route path="/Order" component={OrderReguler}/>
+          <Route path="/OrderDetail" component={OrderRegulerDetail}/>
+          <Route path="/OrderEksklusif" component={OrderEksklusif}/>
+          <Route path="/OrderDetailEksklusif" component={OrderEksklusifDetail}/>
+          <Route path="/HelpAdmin" component={HelpPage}/>
+          <Route path="/HelpAdminCreate" component={HelpCreate}/>
+          <Route path="/HelpDetail" component={HelpDetail}/>
+          <Route path="/Syarat" component={TermsandCondition}/>
+          <Route path="/SyaratCreate" component={TermsandConditionsCreate}/>
+          <Route path="/SyaratDetail" component={TermsandConditionsDetail}/>
         </Switch>
       </div>
     </div>

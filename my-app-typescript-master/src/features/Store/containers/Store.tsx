@@ -42,9 +42,12 @@ const Store = ({isLoading = false, ...props}) => {
     console.log("data filter:"+datafilter)
     const filteredData = datafilter.filter(
       (find:{
-        storename:{toString: () => string};
-        status:{toString:() => string};
-      }) => find.storename.toString().toLowerCase() === datainput.storeName || find.status.toString().toLowerCase() === datainput.status);
+        data:{
+          storename:{toString: () => string};
+          status:{toString:() => string};
+        }
+       
+      }) => find.data.storename.toString().toLowerCase() === datainput.storeName || find.data.status.toString().toLowerCase() === datainput.status);
     
       return filteredData;
       console.log(filteredData);

@@ -84,6 +84,11 @@ i.icon.icon-box {
 .order-week-box {
   background-color: #DC3545;
 }
+
+.chart-card{
+  margin-bottom: 15px !important;
+}
+
 @media (max-width: 575.98px) { 
   .container-content{
     margin: 16px 0;

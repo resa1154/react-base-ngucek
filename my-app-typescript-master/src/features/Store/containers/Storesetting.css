@@ -14,10 +14,23 @@
     margin: 16px 0;
 }
 
+.grid-hours{
+    margin-right: 100px;
+}
 .checkbox-container{
     margin-right: 10px;
     display: block;
     margin-bottom: 10px;
+}
+
+.checkbox-center{
+    padding: 29px 0;
+}
+
+.btn-store{
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px;
 }
 
 .status-store{
@@ -34,9 +47,16 @@
     width: 20px;
     height: 20px;
     margin-right: 10px;
-    background-color: green;
+   
     display: inline-block;
     border-radius: 50%;
+}
+
+.online-status{
+    background-color: green;
+}
+.offline-status{
+    background-color: gray;
 }
 
 .weekend-office{

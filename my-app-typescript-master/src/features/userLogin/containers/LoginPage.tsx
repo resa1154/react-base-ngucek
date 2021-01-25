@@ -25,7 +25,7 @@ const UserLoginPage = () => {
   };
 
   if (userState.token) {
-    return <Redirect to="/data-test" />;
+    return <Redirect to="/Admin" />;
   }
 
   return (

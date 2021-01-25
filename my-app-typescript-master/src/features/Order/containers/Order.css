@@ -1,0 +1,8 @@
+.auto-complete-text{
+    display: block;
+}
+
+.auto-complete-text div{
+    display: block !important;
+    z-index: 1;
+}

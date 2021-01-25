@@ -26,6 +26,9 @@
     margin: 0;
 }
 
+.hidden{
+    display: none;
+}
 .form-content{
     margin:16px 10px;
     border: solid 1px #eee;

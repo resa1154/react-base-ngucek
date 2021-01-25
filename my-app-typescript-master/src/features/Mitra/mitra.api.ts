@@ -2,10 +2,11 @@ import axios from "axios";
 import { MitraModel, CreateDataMitraSuccessResponse } from './models';
 
 export default class MitraApi{
-    private static endpoint = 'http://my-json-server.typicode.com/resa1154/react-redux';
-    
+    // private static endpoint = 'http://my-json-server.typicode.com/resa1154/react-redux';
+    private static endpoint = 'http://ngucek.ultimosolution.com:9096/api/Mitra';
+
     static getDataMitra(token: string) {
-        return axios.get<any>(this.endpoint + '/Mitra', {
+        return axios.get<any>(this.endpoint + '/GetList', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

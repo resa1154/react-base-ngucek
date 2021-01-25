@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Table } from "semantic-ui-react";
+import { RootState } from "../../../app/store";
+import { getDataOff } from "../store.reducer";
 
 const OffDayTable = () => {
+  const dispatch = useDispatch();
   const OffDays = [{
     id:1,
     date:"20-12-2020",
     information:"Hari Nasional"
   }];
 
+  const OffDayState = useSelector((state:RootState) => state.store.list);
+  const itemOffDay = OffDayState ?? [];
+  console.log(itemOffDay);
+
    const renderItemsTableRow = () =>{
-      return OffDays.map((td:any) => (
+      return itemOffDay.map((td:any) => (
         <Table.Row key={td.id}>
-            <Table.Cell>{td.date}</Table.Cell>
-            <Table.Cell>{td.information}</Table.Cell>
+            <Table.Cell>{td.data.date_day}</Table.Cell>
+            <Table.Cell>{td.data.description_day}</Table.Cell>
             <Table.Cell>
           {/* <Link
             to={{
@@ -29,6 +37,10 @@ const OffDayTable = () => {
         </Table.Row>
       ));
    }
+
+   useEffect(() => {
+    dispatch(getDataOff());
+  },[]);
 
     return (
         <Table celled>
