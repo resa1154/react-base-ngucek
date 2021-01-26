@@ -36,6 +36,18 @@ export const getDataCustomer = createAsyncThunk(
     }
 );
 
+export const getDataProvince = createAsyncThunk(
+  'getDataProvinceState/getDataProvince',
+  async (id:string | undefined = undefined, {getState, rejectWithValue}) => {
+    const { token } = (getState() as RootState).user;
+    try {
+        return await CustomerApi.getDataCustomer(token as string);
+    } catch (e) {
+        return rejectWithValue(e as ApiErrorResponse<any>);
+    }
+  }
+);
+
 export const getCustomerSingle = createAsyncThunk(
     'getCustomerSingleState/customerSingle',
     async (id: string, { getState, rejectWithValue }) => {

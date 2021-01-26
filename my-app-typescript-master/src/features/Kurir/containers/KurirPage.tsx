@@ -149,7 +149,7 @@ const resetForm = () =>{
       </div>
 
       <div className="form-content">
-        <Button color="teal" as={Link} to="/KurirDetail">
+        <Button color="teal" as={Link} to="/KurirCreate">
           New
         </Button>
         <KurirTable/>

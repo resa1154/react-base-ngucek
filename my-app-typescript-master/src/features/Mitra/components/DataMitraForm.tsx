@@ -1,49 +1,66 @@
-import React, { useState, ChangeEvent } from "react";
-import { Grid, Form, Image, InputOnChangeData, Button, Icon } from "semantic-ui-react";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import {
+  Grid,
+  Form,
+  Image,
+  InputOnChangeData,
+  Button,
+  Icon,
+} from "semantic-ui-react";
 import ReactDatePicker from "react-datepicker";
-import ImageUploading, {ImageListType} from "react-images-uploading";
-
+import ImageUploading, { ImageListType } from "react-images-uploading";
+import { RootState } from "../../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getAddressProvince } from "../../dataSet/province/province.reducer";
+import { getAddressCity } from "../../dataSet/city/city.reducer";
+import { getAddressSubDistrict } from "../../dataSet/subDistrict/subDistrict.reducer";
 
 const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   const [startYear, setStartYear] = useState(new Date());
   const [open, setOpen] = useState(false);
 
- //Initial State Form
- const [name, setName] = useState("");
- const [email, setEmail] = useState("");
- const [phoneNumber, setPhoneNumber] = useState("");
- const [no_nik, setNo_Nik] = useState("");
- const [npwp, setNpwp] = useState("");
- const [status, setStatus] = useState("");
- const [companyName, setCompanyName] = useState("");
- const [shopName, setShopName] = useState("");
- const [shopEmail, setShopEmail] = useState("");
- const [address, setAddress] = useState("");
- const [province, setProvince] = useState("");
- const [District, setDistrict] = useState("");
- const [subDistrict, setsubDistrict] = useState("");
- const [city,setCity] = useState("");
- const [postal_code,setPostalCode] = useState("");
- const [companySince, setCompanySince] = useState("");
- const [date, setDate] = useState("");
-const [social_link, setSocialLink] = useState("");
-const [social_link1, setSocialLink1] = useState("");
-const [social_link2, setSocialLink2] = useState("");
+  //Initial State Form
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [no_nik, setNo_Nik] = useState("");
+  const [npwp, setNpwp] = useState("");
+  const [status, setStatus] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [shopName, setShopName] = useState("");
+  const [shopEmail, setShopEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [District, setDistrict] = useState("");
+  const [subDistrict, setSubDistrict] = useState("");
+  const [city, setCity] = useState("");
+  const [postal_code, setPostalCode] = useState("");
+  const [companySince, setCompanySince] = useState("");
+  const [date, setDate] = useState("");
+  const [social_link, setSocialLink] = useState("");
+  const [social_link1, setSocialLink1] = useState("");
+  const [social_link2, setSocialLink2] = useState("");
+  //dropdown
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [isActive, setIsActive] = useState(true);
 
-//Initial State Images
-const [images_nik, setImagesNik] = useState([]);
-const [images_npwp, setImagesNpwp] = useState([]);
-const [images_profil, setImagesProfil] = useState([]);
-const [images_store, setImagesStore] = useState([]);
+  //Initial State Images
+  const [images_nik, setImagesNik] = useState([]);
+  const [images_npwp, setImagesNpwp] = useState([]);
+  const [images_profil, setImagesProfil] = useState([]);
+  const [images_store, setImagesStore] = useState([]);
 
-const [showPassword,setShowPassword] = useState("");
-const [showPassword1,setShowPassword1] = useState("");
-const [showPassword2,setShowPassword2] = useState("");
-const [showPassword3,setShowPassword3] = useState("");
+  const [showPassword, setShowPassword] = useState("");
+  const [showPassword1, setShowPassword1] = useState("");
+  const [showPassword2, setShowPassword2] = useState("");
+  const [showPassword3, setShowPassword3] = useState("");
 
-const [active,SetActive] = useState(false);
+  const [active, SetActive] = useState(false);
+  const dispatch = useDispatch();
 
-const onImageCardChange = (
+  const onImageCardChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
@@ -61,15 +78,23 @@ const onImageCardChange = (
     setImagesNpwp(imageList as never[]);
   };
 
-  const onImageProfilChange = ( imageList: ImageListType,
-    addUpdateIndex: number[] | undefined) => {  console.log(imageList, addUpdateIndex);
-        setImagesProfil(imageList as never[]);};
+  const onImageProfilChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    console.log(imageList, addUpdateIndex);
+    setImagesProfil(imageList as never[]);
+  };
 
-const onImageStoreChange = ( imageList: ImageListType,
-    addUpdateIndex: number[] | undefined) => {  console.log(imageList, addUpdateIndex);
-        setImagesStore(imageList as never[]);};
+  const onImageStoreChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    console.log(imageList, addUpdateIndex);
+    setImagesStore(imageList as never[]);
+  };
 
- const onNameChange = (
+  const onNameChange = (
     e: ChangeEvent<HTMLInputElement>,
     { value }: InputOnChangeData
   ) => {
@@ -84,165 +109,289 @@ const onImageStoreChange = ( imageList: ImageListType,
     setEmail(value);
   };
 
-  const onPhoneChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=>{
-      setPhoneNumber(value);
+  const onPhoneChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setPhoneNumber(value);
   };
 
-  const onNikChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-      setNo_Nik(value);
+  const onNikChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setNo_Nik(value);
   };
 
-  const onNpwpChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
+  const onNpwpChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
     setNpwp(value);
-};
-
-  const onStatusChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-      setStatus(value);
   };
 
-  const onCompanyNameChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
+  const onStatusChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setStatus(value);
+  };
+
+  const onCompanyNameChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
     setCompanyName(value);
-};
+  };
 
-const onShopNameChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setShopName(value);
-};
+  const onShopNameChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setShopName(value);
+  };
 
-const onShopEmailChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setShopEmail(value);
-};
+  const onShopEmailChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setShopEmail(value);
+  };
 
-const onAddressChange = (
-  e: ChangeEvent<HTMLTextAreaElement>,
-  { value }: any
-) => {
-  setAddress(value);
-};
+  const onAddressChange = (
+    e: ChangeEvent<HTMLTextAreaElement>,
+    { value }: any
+  ) => {
+    setAddress(value);
+  };
 
-const onProvinceChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setProvince(value);
-};
+  const onProvinceChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setProvince(value);
+  };
 
-const onDistricChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setDistrict(value);
-};
+  const onDistricChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setDistrict(value);
+  };
 
-const onSubDistricChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setsubDistrict(value);
-};
+  // const onSubDistricChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
+  //   setsubDistrict(value);
+  // };
 
-const onCityChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setCity(value);
-};
+  const onCityChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setCity(value);
+  };
 
-const onPostalChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setPostalCode(value);
-};
+  const onPostalChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setPostalCode(value);
+  };
 
-const onCompanySinceChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  setCompanySince(value);
-};
+  const onCompanySinceChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setCompanySince(value);
+  };
 
-const onChangeSocialLink = (e: ChangeEvent<HTMLInputElement>, {value}:InputOnChangeData) => {
-  setSocialLink(value);
-};
+  const onChangeSocialLink = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setSocialLink(value);
+  };
 
-const onChangeSocialLink1 = (e: ChangeEvent<HTMLInputElement>, {value}:InputOnChangeData) => {
-  setSocialLink1(value);
-}
+  const onChangeSocialLink1 = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setSocialLink1(value);
+  };
 
-const onChangeSocialLink2 = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnChangeData) => {
-  setSocialLink2(value);
-}
+  const onChangeSocialLink2 = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setSocialLink2(value);
+  };
 
-const onChangeDriver = (e:any , data:any) => {
-  let checked = data.checked;
-  // if (checked == true){
-  //   className = "display:block"
-  // } else{
-  //   className = "display:none"
-  // }
-  SetActive(checked);
-  console.log(checked);
-  // console.log(data.value);
-}
+  const addressProvinceState = useSelector(
+    (state: RootState) => state.province.province
+  );
+  const addressCityState = useSelector((state: RootState) => state.city.city);
+  const addresssubDistrictState = useSelector(
+    (state: RootState) => state.subDistrict.subDistrict
+  );
 
-const renderAddDriver = () => {
-  return(
-    <div className="form-content" >
-    <p className="title-content">Info Kurir</p>
-    <Form >
-      <Form.Field>
-        <label>Nama</label>
-        <Form.Input placeholder="Nama" />
-      </Form.Field>
-      <Form.Field>
-        <label>Email</label>
-        <Form.Input placeholder="Email" />
-      </Form.Field>
-      <Form.Field>
-        <label>Telepon</label>
-        <Form.Input placeholder="Telepon" />
-      </Form.Field>
-      <Form.TextArea label="Alamat" placeholder="" />
+  let provinceOptions = addressProvinceState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.provinceName,
+      text: elem.provinceName,
+    };
+  });
 
-      <Form.Group widths="equal">
-        <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
-        <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
-      </Form.Group>
-      <Form.Group widths="equal">
-        <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
-        <Form.Input fluid label="Kota" placeholder="Kota" />
-      </Form.Group>
-      <Form.Group widths={2}>
-        <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
-      </Form.Group>
-      <Form.Group widths={2}>
-        {/* <Form.Select
+  let cityOptions = addressCityState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.cityName,
+      text: elem.cityName,
+    };
+  });
+
+  let subDistrictOptions = addresssubDistrictState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.subDistrictName,
+      text: elem.subDistrictName,
+    };
+  });
+
+  useEffect(() => {
+    dispatch(getAddressProvince());
+  }, []);
+
+  const handleProvinceChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressCity(key));
+    setProvince(data.value);
+    setSelectedProvince(e.target.textContent);
+  };
+
+  const handleCityChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressSubDistrict(key));
+    setCity(data.value);
+    setSelectedCity(e.target.textContent);
+  };
+
+  const handleDistrictChange = (e: any, data: any) => {
+    setSubDistrict(data.value);
+    setSelectedDistrict(e.target.textContent);
+  };
+
+  const onChangeDriver = (e: any, data: any) => {
+    let checked = data.checked;
+    // if (checked == true){
+    //   className = "display:block"
+    // } else{
+    //   className = "display:none"
+    // }
+    SetActive(checked);
+    console.log(checked);
+    // console.log(data.value);
+  };
+
+  const renderAddDriver = () => {
+    return (
+      <div className="form-content">
+        <p className="title-content">Info Kurir</p>
+        <Form>
+          <Form.Field>
+            <label>Nama</label>
+            <Form.Input placeholder="Nama" />
+          </Form.Field>
+          <Form.Field>
+            <label>Email</label>
+            <Form.Input placeholder="Email" />
+          </Form.Field>
+          <Form.Field>
+            <label>Telepon</label>
+            <Form.Input placeholder="Telepon" />
+          </Form.Field>
+          <Form.TextArea label="Alamat" placeholder="" />
+
+          <Form.Group widths="equal">
+            <Form.Input fluid label="Provinsi" placeholder="Provinsi" />
+            <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" />
+          </Form.Group>
+          <Form.Group widths="equal">
+            <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" />
+            <Form.Input fluid label="Kota" placeholder="Kota" />
+          </Form.Group>
+          <Form.Group widths={2}>
+            <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" />
+          </Form.Group>
+          <Form.Group widths={2}>
+            {/* <Form.Select
           fluid
           label="Status"
           options={options}
           placeholder="Aktif"
         /> */}
-        <Form.Input fluid label="Status" placeholder="Status" />
-      </Form.Group>
-      <div className="form-content form-store">
-        <p className="title-content">Info Kendaraan</p>
-        <Form.Field>
-          <label>Nomor Polisi</label>
-          <input placeholder="Nomor Polisi" />
-        </Form.Field>
-      </div>
+            <Form.Input fluid label="Status" placeholder="Status" />
+          </Form.Group>
+          <div className="form-content form-store">
+            <p className="title-content">Info Kendaraan</p>
+            <Form.Field>
+              <label>Nomor Polisi</label>
+              <input placeholder="Nomor Polisi" />
+            </Form.Field>
+          </div>
 
-      <div className="form-content form-store">
-        <p className="title-content">Akun</p>
-        <Form>
-          <Form.Field>
-            <label>Nomor Tlp / Email</label>
-            <Form.Input />
-          </Form.Field>
-          <Form.Field>
-            <label>Password</label>
-            <Form.Input type={showPassword2 ? "text" : "password"} icon={
-              <Icon name={showPassword2 ? "eye slash" : "eye"}/>
-            }/>
-          </Form.Field>
-          <Form.Field>
-            <label>Confirm Password</label>
-            <Form.Input type={showPassword3 ? "text" : "password"} icon={
-              <Icon name={showPassword3 ? "eye slash" : "eye"}/>
-            }/>
-          </Form.Field>
+          <div className="form-content form-store">
+            <p className="title-content">Akun</p>
+            <Form>
+              <Form.Field>
+                <label>Nomor Tlp / Email</label>
+                <Form.Input />
+              </Form.Field>
+              <Form.Field>
+                <label>Password</label>
+                <Form.Input
+                  type={showPassword2 ? "text" : "password"}
+                  icon={<Icon name={showPassword2 ? "eye slash" : "eye"} />}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Confirm Password</label>
+                <Form.Input
+                  type={showPassword3 ? "text" : "password"}
+                  icon={<Icon name={showPassword3 ? "eye slash" : "eye"} />}
+                />
+              </Form.Field>
+            </Form>
+          </div>
         </Form>
       </div>
-    </Form>
-  </div>
-  )
-}
-
+    );
+  };
 
   return (
-    <Form loading={isLoading} onSubmit={() => props.onSubmit(name,email,no_nik,npwp,companyName,shopName,shopEmail,phoneNumber,province, District, subDistrict,city,postal_code)}>
+    <Form
+      loading={isLoading}
+      onSubmit={() =>
+        props.onSubmit(
+          name,
+          email,
+          no_nik,
+          npwp,
+          companyName,
+          shopName,
+          shopEmail,
+          phoneNumber,
+          province,
+          District,
+          subDistrict,
+          city,
+          postal_code
+        )
+      }
+    >
       <Grid>
         <Grid.Row columns={2} only="computer">
           <Grid.Column>
@@ -251,58 +400,133 @@ const renderAddDriver = () => {
               <Form>
                 <Form.Field>
                   <label>Nama Lengkap</label>
-                  <Form.Input placeholder="Name" onChange={onNameChange} value={name}/>
+                  <Form.Input
+                    placeholder="Name"
+                    onChange={onNameChange}
+                    value={name}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <Form.Input placeholder="Email" onChange={onEmailChange} value={email} />
+                  <Form.Input
+                    placeholder="Email"
+                    onChange={onEmailChange}
+                    value={email}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
+                  <Form.Input
+                    placeholder="Telepon"
+                    onChange={onPhoneChange}
+                    value={phoneNumber}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>NIK</label>
-                  <Form.Input placeholder="NIK" onChange={onNikChange} value={no_nik}/>
+                  <Form.Input
+                    placeholder="NIK"
+                    onChange={onNikChange}
+                    value={no_nik}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>NPWP (Optional)</label>
-                  <Form.Input placeholder="NPWP" onChange={onNpwpChange} value={npwp}/>
+                  <Form.Input
+                    placeholder="NPWP"
+                    onChange={onNpwpChange}
+                    value={npwp}
+                  />
                 </Form.Field>
               </Form>
             </div>
             <div className="form-content">
               <p className="title-content">Store Info</p>
-              <Form >
+              <Form>
                 <Form.Field>
                   <label>Nama Perusahaan</label>
-                  <Form.Input placeholder="Nama Perusahaan" onChange={onCompanyNameChange} value={companyName}/>
+                  <Form.Input
+                    placeholder="Nama Perusahaan"
+                    onChange={onCompanyNameChange}
+                    value={companyName}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Nama Toko</label>
-                  <Form.Input placeholder="Nama Toko" onChange={onShopNameChange} value={shopName} />
+                  <Form.Input
+                    placeholder="Nama Toko"
+                    onChange={onShopNameChange}
+                    value={shopName}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
-                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
+                  <Form.Input
+                    placeholder="Telepon"
+                    onChange={onPhoneChange}
+                    value={phoneNumber}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <Form.Input placeholder="Email" onChange={onShopEmailChange} value={shopEmail}/>
+                  <Form.Input
+                    placeholder="Email"
+                    onChange={onShopEmailChange}
+                    value={shopEmail}
+                  />
                 </Form.Field>
-         
+
                 <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" onChange={onProvinceChange} value={province}/>
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" onChange={onDistricChange} value={District}/>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" onChange={onSubDistricChange} value={subDistrict} />
-                  <Form.Input fluid label="Kota" placeholder="Kota" onChange={onCityChange} value={city}/>
+                  <Form.Dropdown
+                    fluid
+                    label="Provinsi"
+                    placeholder="Pilih Provinsi"
+                    options={provinceOptions}
+                    selection
+                    onChange={handleProvinceChange}
+                    value={province}
+                    defaultSelectedLabel={province}
+                  />
+                  <Form.Dropdown
+                    fluid
+                    label="Kota"
+                    placeholder="Pilih Kota"
+                    options={cityOptions}
+                    selection
+                    onChange={handleCityChange}
+                    value={city}
+                    defaultSelectLabel={city}
+                    disabled={province === "" ? isActive : false}
+                  />
                 </Form.Group>
                 <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" onChange={onPostalChange} value={postal_code} />
+                  <Form.Dropdown
+                    fluid
+                    label="Kecamatan / Kelurahan"
+                    placeholder="Pilih Kec / Kel"
+                    options={subDistrictOptions}
+                    selection
+                    onChange={handleDistrictChange}
+                    value={subDistrict}
+                    defaultSelectedLabel={subDistrict}
+                    disabled={city === "" ? isActive:false}
+                  />
                 </Form.Group>
-                <Form.TextArea label="Alamat" placeholder="Alamat" onChange={onAddressChange} value={address}/>
+                <Form.Group widths={2}>
+                  <Form.Input
+                    fluid
+                    label="Kode Pos"
+                    placeholder="Kode Pos"
+                    onChange={onPostalChange}
+                    value={postal_code}
+                  />
+                </Form.Group>
+                <Form.TextArea
+                  label="Alamat"
+                  placeholder="Alamat"
+                  onChange={onAddressChange}
+                  value={address}
+                />
                 <Form.Field>
                   <label>Map</label>
                   <iframe
@@ -319,7 +543,7 @@ const renderAddDriver = () => {
                 <Form.Group widths={2}>
                   <Form.Field>
                     <label>Tahun Berdiri</label>
-         
+
                     <ReactDatePicker
                       selected={startYear}
                       onChange={(date) => setStartYear(date as Date)}
@@ -328,15 +552,17 @@ const renderAddDriver = () => {
                     ></ReactDatePicker>
                   </Form.Field>
                 </Form.Group>
-                <Form.Checkbox label="Memiliki Kurir" onChange={onChangeDriver}/>
+                <Form.Checkbox
+                  label="Memiliki Kurir"
+                  onChange={onChangeDriver}
+                />
                 <Form.Field>
-                    <label>Jenis Laundry</label>
-                    <Form.Group widths={2}>
-                    <Form.Checkbox label="Laundry Reguler"/>
-                    <Form.Checkbox label="Laundry By Ngucek"/>
-                 </Form.Group>
-                  </Form.Field>
-             
+                  <label>Jenis Laundry</label>
+                  <Form.Group widths={2}>
+                    <Form.Checkbox label="Laundry Reguler" />
+                    <Form.Checkbox label="Laundry By Ngucek" />
+                  </Form.Group>
+                </Form.Field>
               </Form>
             </div>
           </Grid.Column>
@@ -345,41 +571,52 @@ const renderAddDriver = () => {
               <p className="title-content">Owner Photos</p>
               <Image.Group className="image-container">
                 <div className="image-content">
-                <ImageUploading
-        multiple
-        value={images_nik}
-        onChange={onImageCardChange}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <Button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            ><Icon name="upload"/> Upload Files 
-            </Button>
-            &nbsp;
-            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image src={image.dataURL} alt="" size="small" />
-                <div className="image-item__btn-wrapper">
-                <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
-                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </ImageUploading>
+                  <ImageUploading
+                    multiple
+                    value={images_nik}
+                    onChange={onImageCardChange}
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <Button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          <Icon name="upload" /> Upload Files
+                        </Button>
+                        &nbsp;
+                        {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                        {imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <Image src={image.dataURL} alt="" size="small" />
+                            <div className="image-item__btn-wrapper">
+                              <Button
+                                color="teal"
+                                onClick={() => onImageUpdate(index)}
+                              >
+                                <Icon name="redo" style={{ margin: 0 }} />
+                              </Button>
+                              <Button
+                                color="red"
+                                onClick={() => onImageRemove(index)}
+                              >
+                                <Icon name="trash" style={{ margin: 0 }} />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </ImageUploading>
                   {/* <Image
                     src="https://react.semantic-ui.com/images/wireframe/image.png"
                     size="small"
@@ -391,40 +628,51 @@ const renderAddDriver = () => {
                     src="https://react.semantic-ui.com/images/wireframe/image.png"
                     size="small"
                   /> */}
-                    <ImageUploading
-        multiple
-        value={images_npwp}
-        onChange={onImageNPWPChange}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <Button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            ><Icon name="upload"/> Upload Files
-            </Button>
-            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image src={image.dataURL} alt="" size="small" />
-                <div className="image-item__btn-wrapper">
-                <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
-                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </ImageUploading>
+                  <ImageUploading
+                    multiple
+                    value={images_npwp}
+                    onChange={onImageNPWPChange}
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <Button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          <Icon name="upload" /> Upload Files
+                        </Button>
+                        {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                        {imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <Image src={image.dataURL} alt="" size="small" />
+                            <div className="image-item__btn-wrapper">
+                              <Button
+                                color="teal"
+                                onClick={() => onImageUpdate(index)}
+                              >
+                                <Icon name="redo" style={{ margin: 0 }} />
+                              </Button>
+                              <Button
+                                color="red"
+                                onClick={() => onImageRemove(index)}
+                              >
+                                <Icon name="trash" style={{ margin: 0 }} />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </ImageUploading>
                   <p className="title-image">NPWP (Opsional) </p>
                 </div>
                 <div className="image-content">
@@ -432,41 +680,52 @@ const renderAddDriver = () => {
                     src="https://react.semantic-ui.com/images/wireframe/image.png"
                     size="small"
                   /> */}
-    <ImageUploading
-        multiple
-        value={images_profil}
-        onChange={onImageProfilChange}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <Button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            ><Icon name="upload"/> Upload Files
-            </Button>
-            &nbsp;
-            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image src={image.dataURL} alt="" size="small" />
-                <div className="image-item__btn-wrapper">
-                  <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
-                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </ImageUploading>
+                  <ImageUploading
+                    multiple
+                    value={images_profil}
+                    onChange={onImageProfilChange}
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <Button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          <Icon name="upload" /> Upload Files
+                        </Button>
+                        &nbsp;
+                        {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                        {imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <Image src={image.dataURL} alt="" size="small" />
+                            <div className="image-item__btn-wrapper">
+                              <Button
+                                color="teal"
+                                onClick={() => onImageUpdate(index)}
+                              >
+                                <Icon name="redo" style={{ margin: 0 }} />
+                              </Button>
+                              <Button
+                                color="red"
+                                onClick={() => onImageRemove(index)}
+                              >
+                                <Icon name="trash" style={{ margin: 0 }} />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </ImageUploading>
                   <p className="title-image">Diri (Opsional) </p>
                 </div>
               </Image.Group>
@@ -479,43 +738,54 @@ const renderAddDriver = () => {
                     src="https://react.semantic-ui.com/images/wireframe/image.png"
                     size="small"
                   /> */}
-                      <ImageUploading
-        multiple
-        value={images_store}
-        onChange={onImageStoreChange}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <Button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            ><Icon name="upload"/> Upload Files
-            </Button>
-            &nbsp;
-            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
-            <div className="image-wrapper">
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image src={image.dataURL} alt="" size="small" />
-                <div className="image-item__btn-wrapper">
-                  <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
-                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
-                </div>
-              </div>
-            ))}
-            </div>
-          </div>
-        )}
-      </ImageUploading>
+                  <ImageUploading
+                    multiple
+                    value={images_store}
+                    onChange={onImageStoreChange}
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper">
+                        <Button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          <Icon name="upload" /> Upload Files
+                        </Button>
+                        &nbsp;
+                        {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                        <div className="image-wrapper">
+                          {imageList.map((image, index) => (
+                            <div key={index} className="image-item">
+                              <Image src={image.dataURL} alt="" size="small" />
+                              <div className="image-item__btn-wrapper">
+                                <Button
+                                  color="teal"
+                                  onClick={() => onImageUpdate(index)}
+                                >
+                                  <Icon name="redo" style={{ margin: 0 }} />
+                                </Button>
+                                <Button
+                                  color="red"
+                                  onClick={() => onImageRemove(index)}
+                                >
+                                  <Icon name="trash" style={{ margin: 0 }} />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </ImageUploading>
                   <p className="title-image">Foto Daftar Harga</p>
                 </div>
                 {/* <div className="image-content">
@@ -539,11 +809,17 @@ const renderAddDriver = () => {
               <Form>
                 <Form.Field>
                   <label>Instagram</label>
-                  <Form.Input onChange={onChangeSocialLink} value={social_link}/>
+                  <Form.Input
+                    onChange={onChangeSocialLink}
+                    value={social_link}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Facebook</label>
-                  <Form.Input onChange={onChangeSocialLink1} value={social_link1}/>
+                  <Form.Input
+                    onChange={onChangeSocialLink1}
+                    value={social_link1}
+                  />
                 </Form.Field>
               </Form>
             </div>
@@ -556,21 +832,25 @@ const renderAddDriver = () => {
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <Form.Input type={showPassword ? "text" : "password"} icon={
-                        <Icon name={showPassword ? "eye slash" : "eye"}/>
-                      }/>
+                  <Form.Input
+                    type={showPassword ? "text" : "password"}
+                    icon={<Icon name={showPassword ? "eye slash" : "eye"} />}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>Confirm Password</label>
-                  <Form.Input type={showPassword1 ? "text" : "password"} icon={
-                        <Icon name={showPassword1 ? "eye slash" : "eye"}/>
-                      }/>
+                  <Form.Input
+                    type={showPassword1 ? "text" : "password"}
+                    icon={<Icon name={showPassword1 ? "eye slash" : "eye"} />}
+                  />
                 </Form.Field>
               </Form>
             </div>
-            <div className={active ? 'form-content hidden' :'form-content hidden'} >
+            <div
+              className={active ? "form-content hidden" : "form-content hidden"}
+            >
               <p className="title-content">Info Kurir</p>
-              <Form >
+              <Form>
                 <Form.Field>
                   <label>Nama</label>
                   <Form.Input placeholder="Nama" />
@@ -622,21 +902,27 @@ const renderAddDriver = () => {
                     </Form.Field>
                     <Form.Field>
                       <label>Password</label>
-                      <Form.Input type={showPassword2 ? "text" : "password"} icon={
-                        <Icon name={showPassword2 ? "eye slash" : "eye"}/>
-                      }/>
+                      <Form.Input
+                        type={showPassword2 ? "text" : "password"}
+                        icon={
+                          <Icon name={showPassword2 ? "eye slash" : "eye"} />
+                        }
+                      />
                     </Form.Field>
                     <Form.Field>
                       <label>Confirm Password</label>
-                      <Form.Input type={showPassword3 ? "text" : "password"} icon={
-                        <Icon name={showPassword3 ? "eye slash" : "eye"}/>
-                      }/>
+                      <Form.Input
+                        type={showPassword3 ? "text" : "password"}
+                        icon={
+                          <Icon name={showPassword3 ? "eye slash" : "eye"} />
+                        }
+                      />
                     </Form.Field>
                   </Form>
                 </div>
               </Form>
-                
-                {/* <button color="teal" onClick={renderAddDriver}>Tambah Driver</button> */}
+
+              {/* <button color="teal" onClick={renderAddDriver}>Tambah Driver</button> */}
             </div>
           </Grid.Column>
         </Grid.Row>
@@ -793,22 +1079,22 @@ const renderAddDriver = () => {
 };
 
 export interface DataMitraFormProps {
-    onSubmit: (
-      name: string,
-      email: string,
-      no_nik:string,
-      npwp:string,
-      companyName:string,
-      shopName:string,
-      shopEmail:string,
-      phoneNumber:string,
-      province:string,
-      District:string,
-      subDistrict:string,
-      city:string,
-      postal_code:string
-    ) => void;
-    isLoading?: boolean;
-  }
+  onSubmit: (
+    name: string,
+    email: string,
+    no_nik: string,
+    npwp: string,
+    companyName: string,
+    shopName: string,
+    shopEmail: string,
+    phoneNumber: string,
+    province: string,
+    District: string,
+    subDistrict: string,
+    city: string,
+    postal_code: string
+  ) => void;
+  isLoading?: boolean;
+}
 
-  export default DataMitraForm;
+export default DataMitraForm;

@@ -12,6 +12,9 @@ import storeSliceReducer, { StoreSlice } from '../features/Store/store.reducer';
 import orderSliceReducer, { OrderSlice } from '../features/Order/order.reducer';
 import helpSliceReducer, { HelpSlice } from '../features/Help/help.reducer';
 import termSliceReducer, { TermandConditionSlice } from '../features/Setting/termandcondition.reducer';
+import provinceSliceReducer, { ProvinceSlice } from '../features/dataSet/province/province.reducer';
+import citySliceReducer, { CitySlice } from '../features/dataSet/city/city.reducer';
+import subDistrictSliceReducer, { SubDistrictSlice } from '../features/dataSet/subDistrict/subDistrict.reducer';
 
 export const store = configureStore<RootState>({
     reducer: {
@@ -26,7 +29,10 @@ export const store = configureStore<RootState>({
         store:storeSliceReducer,
         order:orderSliceReducer,
         help:helpSliceReducer,
-        term:termSliceReducer
+        term:termSliceReducer,
+        province:provinceSliceReducer,
+        city:citySliceReducer,
+        subDistrict:subDistrictSliceReducer
     }
 })
 
@@ -43,6 +49,9 @@ export type RootState = {
     order:OrderSlice;
     help:HelpSlice;
     term:TermandConditionSlice;
+    province:ProvinceSlice;
+    city:CitySlice;
+    subDistrict:SubDistrictSlice;
 }
 
 export type AppThunk<ReturnType = void> = ThunkAction<

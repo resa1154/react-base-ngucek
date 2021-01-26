@@ -1,4 +1,5 @@
 import axios from "axios";
+import { isAsExpression } from "typescript";
 import { CreateDataCustomerSuccessResponse, CustomerModel } from "./model";
 
 export default class CustomerApi{
@@ -28,6 +29,15 @@ export default class CustomerApi{
             // headers: {
             //     Authorization: `Bearer ${token}`,
             // },
+        }).then((res) => res.data);
+    }
+
+    private static endpointProvince = 'http://ngucek.ultimosolution.com:9096/api/Location/GetProvinceList'
+    static getDataProvince(token:string){
+        return axios.get<any>(this.endpointProvince,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         }).then((res) => res.data);
     }
 }

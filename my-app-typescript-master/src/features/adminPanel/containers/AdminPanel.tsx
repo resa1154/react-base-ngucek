@@ -8,6 +8,7 @@ import Mitra from "../../Mitra/containers/MitraPage";
 import Kurir from "../../Kurir/containers/KurirPage";
 import MitraDetail from "../../Mitra/containers/MitraDetailPage";
 import MitraCreate from "../../Mitra/containers/MitraCreate";
+import KurirCreate from "../../Kurir/containers/KurirCreatePage";
 import KurirDetail from "../../Kurir/containers/KurirDetailPage";
 import ServiceCategory from "../../ServiceCategory/containers/ServiceCategoryPage";
 import ServiceCategoryDetail from "../../ServiceCategory/containers/ServiceCategoryDetail";
@@ -148,6 +149,7 @@ const AdminPanel = () => {
           <Route path="/MitraDetail" component={MitraDetail} />
           <Route path="/MitraCreate" component={MitraCreate}/>
           <Route path="/Kurir" component={Kurir} />
+          <Route path="/KurirCreate" component={KurirCreate}/>
           <Route path="/KurirDetail" component={KurirDetail} />
           <Route path="/ServiceCategory" component={ServiceCategory}/>
           <Route path="/ServiceCategoryDetail" component={ServiceCategoryDetail}/>

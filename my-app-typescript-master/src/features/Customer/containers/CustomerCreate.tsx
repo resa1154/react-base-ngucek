@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -12,9 +12,13 @@ import {
   Checkbox,
 } from "semantic-ui-react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { useDispatch } from "react-redux";
-import { createDataCustomer } from "../customer.reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { createDataCustomer, getDataProvince } from "../customer.reducer";
 import { CustomerModel } from "../model";
+import { RootState } from "../../../app/store";
+import { getAddressProvince } from "../../dataSet/province/province.reducer";
+import { getAddressCity } from "../../dataSet/city/city.reducer";
+import { getAddressSubDistrict } from "../../dataSet/subDistrict/subDistrict.reducer";
 
 const CustomerCreate = ({isLoading = false}) => {
   const optionStatus = [
@@ -28,7 +32,6 @@ const CustomerCreate = ({isLoading = false}) => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
-  const [district, setDistrict] = useState("");
   const [subDistrict, setSubDistrict] = useState("");
   const [city, setCity] = useState("");
   const [postal_code, setPostalCode] = useState("");
@@ -38,7 +41,12 @@ const CustomerCreate = ({isLoading = false}) => {
   const [username,setUsername] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [isActive,setIsActive] = useState(true);
 
+  
   //Initial State Images
   const [images_ktp, setImagesKTP] = useState([]);
   const [images_diri, setImagesDiri] = useState([]);
@@ -103,32 +111,64 @@ const CustomerCreate = ({isLoading = false}) => {
     setAddress(value);
   };
 
-  const onChangeProvince = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setProvince(value);
+  const addressProvinceState = useSelector((state:RootState) => state.province.province); 
+  const addressCityState = useSelector((state:RootState) => state.city.city);
+
+
+  let provinceOptions = addressProvinceState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.id,
+      text: elem.provinceName,
+    };
+  });
+
+  let cityOptions = addressCityState?.map(function(elem){
+    return {
+      key: elem.id,
+      value: elem.id,
+      text:elem.cityName
+    };
+  });
+  const addresssubDistrictState = useSelector((state:RootState) => state.subDistrict.subDistrict);
+
+  let subDistrictOptions = addresssubDistrictState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.id,
+      text: elem.subDistrictName
+    };
+  });
+
+  useEffect(() => {
+    dispatch(getAddressProvince())
+  }, [])
+
+  const handleProvinceChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressCity(key));
+    setProvince(data.value);
+    setSelectedProvince(e.target.textContent);
+
   };
 
-  const onChangeDistrict = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setDistrict(value);
+  
+  const handleCityChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressSubDistrict(key));
+    setCity(data.value);
+    setSelectedCity(e.target.textContent);
+
   };
 
-  const onChangeSubDistrict = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setSubDistrict(value);
-  };
+  const handleDistrictChange = (e: any, data: any) => {
+    setSubDistrict(data.value);
+    setSelectedDistrict(e.target.textContent);
 
-  const onChangeCity = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setCity(value);
   };
 
   const onChangePostalCode = (
@@ -158,19 +198,18 @@ const CustomerCreate = ({isLoading = false}) => {
   };
 
   const onSubmit = (
-    id:string,
     firstName:string,
     lastName:string,
     phoneNumber:string,
     email:string,
     username:string,
+    password:string,
     provinceId:string,
     cityId:string,
     subDistrictId:string,
   ) =>{
     dispatch (createDataCustomer(
       {
-       id,
         firstName,
         lastName,
         phoneNumber,
@@ -186,7 +225,7 @@ const CustomerCreate = ({isLoading = false}) => {
 
   return (
     <Container fluid>
-      <Form loading={isLoading} onSubmit={() => onSubmit("3fa85f64-5717-4562-b3fc-2c963f66afa6",firstname,lastName,phone,email,username,province,city,district)}>
+      <Form loading={isLoading} onSubmit={() => onSubmit(firstname,lastName,phone,email,username,password,province,city,subDistrict)}>
         <Menu secondary className="menu-header">
           <Menu.Item>
             <h3 className="h3">Data - Customer</h3>
@@ -232,34 +271,44 @@ const CustomerCreate = ({isLoading = false}) => {
                 />
 
                 <Form.Group widths="equal">
-                  <Form.Input
+                  <Form.Dropdown
                     fluid
                     label="Provinsi"
-                    placeholder="Provinsi"
+                    placeholder="Pilih Provinsi"
+                    options={provinceOptions}
+                    selection
                     value={province}
-                    onChange={onChangeProvince}
+                    onChange={handleProvinceChange}
+                    defaultSelectedLabel={province}
                   />
-                  <Form.Input
-                    fluid
-                    label="Kecamatan"
-                    placeholder="Kecamatan"
-                    value={district}
-                    onChange={onChangeDistrict}
-                  />
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Form.Input
-                    fluid
-                    label="Kelurahan"
-                    placeholder="Kelurahan"
-                    value={subDistrict}
-                  />
-                  <Form.Input
+                  <Form.Dropdown
                     fluid
                     label="Kota"
-                    placeholder="Kota"
-                    value={city} onChange={onChangeCity}
+                    placeholder="Pilih Kota"
+                    options={cityOptions}
+                    selection
+                    value={city}
+                    onChange={handleCityChange}
+                    defaultSelectedLabel={city}
+                    disabled={province === "" ? isActive:false}
                   />
+                </Form.Group>
+                <Form.Group widths={2}>
+                  <Form.Dropdown
+                    fluid
+                    label="Kecamatan / Kelurahan"
+                    placeholder="Pilih Kec / Kel"
+                    options={subDistrictOptions}
+                    selection
+                    value={subDistrict}
+                    onChange={handleDistrictChange}
+                    defaultSelectedLabel={subDistrict}
+                    disabled={city === "" ? isActive:false}
+                  />
+                  {/* <Form.Input
+                    fluid
+                   
+                  /> */}
                 </Form.Group>
                 <Form.Group widths={2}>
                   <Form.Input
@@ -386,7 +435,7 @@ const CustomerCreate = ({isLoading = false}) => {
                 <Form>
                   <Form.Field>
                     <label>Nomor Tlp / Email</label>
-                    <Form.Input placeholder="" value={email} onChange={onChangeUserName}/>
+                    <Form.Input placeholder="" value={username} onChange={onChangeUserName}/>
                   </Form.Field>
                   <Form.Field>
                     <label>Password</label>
