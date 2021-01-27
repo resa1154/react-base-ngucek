@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Container, Form, Grid, Icon, Menu,Image } from "semantic-ui-react";
 import { RootState } from "../../../app/store";
+import { getAddressCity } from "../../dataSet/city/city.reducer";
+import { getAddressProvince } from "../../dataSet/province/province.reducer";
+import { getAddressSubDistrict } from "../../dataSet/subDistrict/subDistrict.reducer";
 
 const KurirCreatePage = () => {
     const dispatch = useDispatch();
@@ -12,7 +15,6 @@ const KurirCreatePage = () => {
     const [phone,setPhone] = useState("");
     const [address,setAddress] = useState("");
     const [province,setProvince] = useState("");
-    const [district,setDistrict] = useState("");
     const [subDistrict, setSubDistrict] = useState("");
     const [city, setCity] = useState("");
     const [postalcode,setPostalCode] = useState("");
@@ -36,7 +38,60 @@ const KurirCreatePage = () => {
 
     const addressProvinceState = useSelector((state:RootState) => state.province.province);
     const addressCityState = useSelector((state:RootState) => state.city.city);
+    const addressSubDistrictState = useSelector((state:RootState) => state.subDistrict.subDistrict);
+
     
+  let provinceOptions = addressProvinceState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.provinceName,
+      text: elem.provinceName,
+    };
+  });
+
+  let cityOptions = addressCityState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.cityName,
+      text: elem.cityName,
+    };
+  });
+
+  let subDistrictOptions = addressSubDistrictState?.map(function (elem) {
+    return {
+      key: elem.id,
+      value: elem.subDistrictName,
+      text: elem.subDistrictName,
+    };
+  });
+
+  useEffect(() => {
+    dispatch(getAddressProvince());
+  }, []);
+
+  const handleProvinceChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressCity(key));
+    setProvince(data.value);
+    setSelectedProvince(e.target.textContent);
+  };
+
+  const handleCityChange = (e: any, data: any) => {
+    const { key } = data.options.find(
+      (o: { value: any }) => o.value === data.value
+    );
+    dispatch(getAddressSubDistrict(key));
+    setCity(data.value);
+    setSelectedCity(e.target.textContent);
+  };
+
+  const handleDistrictChange = (e: any, data: any) => {
+    setSubDistrict(data.value);
+    setSelectedDistrict(e.target.textContent);
+  };
+
 
     return (
       <Container fluid>
@@ -77,12 +132,12 @@ const KurirCreatePage = () => {
                   <Form.TextArea label="Alamat" placeholder="" value={address} />
   
                   <Form.Group widths="equal">
-                    <Form.Input fluid label="Provinsi" placeholder="Provinsi" value={province}/>
-                    <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" value={district} />
+                    <Form.Dropdown fluid label="Provinsi" placeholder="Pilih Provinsi" options={provinceOptions} selection value={province} onChange={handleProvinceChange} defaultSelectedLabel={province}/>
+                    <Form.Dropdown fluid label="Kota" placeholder="Pilih Kota" options={cityOptions} selection value={city} onChange={handleCityChange} defaultSelectedLabel={city} disabled={province === "" ? isActive:false}/>
                   </Form.Group>
-                  <Form.Group widths="equal">
-                    <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" value={subDistrict} />
-                    <Form.Input fluid label="Kota" placeholder="Kota" value={city}/>
+                  <Form.Group widths={2}>
+                    <Form.Dropdown fluid label="Kecamatan / Kelurahan" placeholder="Pilih Kec / Kel" options={subDistrictOptions} selection value={subDistrict} onChange={handleDistrictChange} defaultSelectedLabel={subDistrict} disabled={city === "" ? isActive:false} />
+                   
                   </Form.Group>
                   <Form.Group widths={2}>
                     <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" value={postalcode}/>

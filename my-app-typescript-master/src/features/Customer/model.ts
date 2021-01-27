@@ -8,7 +8,9 @@ export interface CustomerModel{
     password:string,
     provinceId:string,
     cityId:string,
-    subDistrictId:string
+    subDistrictId:string,
+    address:string,
+    postalCode:string
 }
 
 export interface CreateDataCustomerSuccessResponse {

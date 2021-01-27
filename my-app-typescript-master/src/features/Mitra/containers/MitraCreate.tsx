@@ -38,23 +38,23 @@ const MitraCreate = () =>{
       city:string,
       postal_code:string
     ) => {
-      dispatch(
-        createDataMitra({
-          name,
-          email,
-          no_nik,
-          npwp,
-          companyName,
-          shopName,
-          shopEmail,
-          phoneNumber,
-          province,
-          District,
-          subDistrict,
-          city,
-          postal_code
-        } as MitraModel)
-      );
+      // dispatch(
+      //   createDataMitra({
+      //     name,
+      //     email,
+      //     no_nik,
+      //     npwp,
+      //     companyName,
+      //     shopName,
+      //     shopEmail,
+      //     phoneNumber,
+      //     province,
+      //     District,
+      //     subDistrict,
+      //     city,
+      //     postal_code
+      //   } as MitraModel)
+      // );
     };
     
     return(

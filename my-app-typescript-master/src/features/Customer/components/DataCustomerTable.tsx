@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Table, Pagination, Button } from "semantic-ui-react";
 import { PaginationProps } from "semantic-ui-react/dist/commonjs/addons/Pagination/Pagination";
 import { RootState } from "../../../app/store";
-import { getDataCustomer } from "../customer.reducer";
+import { deleteDataCustomer, getDataCustomer } from "../customer.reducer";
 
 interface PaginationInt {
     limit: number;
@@ -56,11 +56,22 @@ const DataCustomerTable = () => {
   const indexOfFirstPage = indexOfLastPage - pagination.limit;
   const PagingCustomer = datacustomerstate.slice(indexOfFirstPage, indexOfLastPage);
 
+  const onDelete = (id:string) => {
+    dispatch(deleteDataCustomer(id));
+    // dispatch(getDataCustomer());
+    console.log("delete");
+  }
+
+  const onDeleteClicked = (e: any, data: any) => {
+    dispatch(deleteDataCustomer(data.value));
+    dispatch(getDataCustomer());
+  };
+
   const renderItemsTableRow = () => {
     return PagingCustomer.map((td: any) => (
       <Table.Row key={td.id}>
         <Table.Cell>{td.no}</Table.Cell>
-        <Table.Cell>{td.fullname}</Table.Cell>
+        <Table.Cell>{td.firstName +" "+ td.lastName}</Table.Cell>
         <Table.Cell>{td.phoneNumber}</Table.Cell>
         <Table.Cell>{td.email}</Table.Cell>
         <Table.Cell>
@@ -73,7 +84,13 @@ const DataCustomerTable = () => {
             <Button>Detail</Button>
           </Link>
 
-          <Button color="red">Delete</Button>
+          <Button color="red" onClick={()=>{
+            if(window.confirm("Apakah Kamu Yakin akan Menghapus data ini?"))
+            onDelete(td.id);
+          }}
+          variant ="danger"
+          >Delete</Button>
+          {/* <Button color="red" onClick={onDeleteClicked} value={td.id}>Delete</Button> */}
         </Table.Cell>
       </Table.Row>
     ));

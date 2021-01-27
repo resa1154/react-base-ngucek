@@ -63,7 +63,7 @@ const DataUserTable = () => {
         <Table.Cell>{td.no}</Table.Cell>
         <Table.Cell>{td.name}</Table.Cell>
         <Table.Cell>{td.password}</Table.Cell>
-        <Table.Cell>{td.roles}</Table.Cell>
+        <Table.Cell>{td.roleEnum}</Table.Cell>
         <Table.Cell>
           {/* <Link to={{
                   pathname:"/MitraDetail" ,

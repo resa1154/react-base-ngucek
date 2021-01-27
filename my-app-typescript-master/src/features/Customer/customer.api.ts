@@ -24,20 +24,21 @@ export default class CustomerApi{
           
       }
 
-    static getSingle( Id: string) {
-        return axios.get<any>(this.endpoint + '/Customer?id=' + Id, {
+      static deleteCustomer(token: string, customerId: string) {
+        return axios.post<any>(this.endpoint + '/Delete?id='+ customerId,  {
             // headers: {
             //     Authorization: `Bearer ${token}`,
             // },
-        }).then((res) => res.data);
+        })
+        .then((res) => res.data);
     }
 
-    private static endpointProvince = 'http://ngucek.ultimosolution.com:9096/api/Location/GetProvinceList'
-    static getDataProvince(token:string){
-        return axios.get<any>(this.endpointProvince,{
+    static getSingle(token:string, Id: string) {
+        return axios.get<any>(this.endpoint + '/GetSingleItem?id=' + Id, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         }).then((res) => res.data);
     }
+
 }

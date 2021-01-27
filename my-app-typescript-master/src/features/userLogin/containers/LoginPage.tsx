@@ -14,6 +14,7 @@ const UserLoginPage = () => {
   // hooks
   const dispatch = useDispatch();
   const userState = useSelector((state: RootState) => state.user);
+  console.log(userState);
 
   const onSubmit = (username: string, password: string) => {
     dispatch(
@@ -24,9 +25,9 @@ const UserLoginPage = () => {
     );
   };
 
-  if (userState.token) {
-    return <Redirect to="/Admin" />;
-  }
+  // if (userState.data.token) {
+  //   return <Redirect to="/Admin" />;
+  // }
 
   return (
     <div className="outer-main">

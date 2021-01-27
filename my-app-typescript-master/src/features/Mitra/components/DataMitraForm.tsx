@@ -20,15 +20,19 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   const [open, setOpen] = useState(false);
 
   //Initial State Form
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [no_nik, setNo_Nik] = useState("");
   const [npwp, setNpwp] = useState("");
   const [status, setStatus] = useState("");
+
+  //initial State Store info
   const [companyName, setCompanyName] = useState("");
-  const [shopName, setShopName] = useState("");
-  const [shopEmail, setShopEmail] = useState("");
+  const [storeName, setStoreName] = useState("");
+  const [storeEmail, setStoreEmail] = useState("");
+  const [storePhone, setStorePhone] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
   const [District, setDistrict] = useState("");
@@ -94,11 +98,18 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
     setImagesStore(imageList as never[]);
   };
 
-  const onNameChange = (
+  const onFirstNameChange = (
     e: ChangeEvent<HTMLInputElement>,
     { value }: InputOnChangeData
   ) => {
-    setName(value);
+    setFirstName(value);
+    console.log(value);
+  };
+  const onLastNameChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
+    setLastName(value);
     console.log(value);
   };
 
@@ -148,15 +159,19 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
     e: ChangeEvent<HTMLInputElement>,
     { value }: InputOnChangeData
   ) => {
-    setShopName(value);
+    setStoreName(value);
   };
 
   const onShopEmailChange = (
     e: ChangeEvent<HTMLInputElement>,
     { value }: InputOnChangeData
   ) => {
-    setShopEmail(value);
+    setStoreEmail(value);
   };
+
+  const onShopPhoneChange = (e:ChangeEvent<HTMLInputElement>, {value}: InputOnChangeData) => {
+    setStorePhone(value);
+  }
 
   const onAddressChange = (
     e: ChangeEvent<HTMLTextAreaElement>,
@@ -165,30 +180,6 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
     setAddress(value);
   };
 
-  const onProvinceChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setProvince(value);
-  };
-
-  const onDistricChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setDistrict(value);
-  };
-
-  // const onSubDistricChange = (e: ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData)=> {
-  //   setsubDistrict(value);
-  // };
-
-  const onCityChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setCity(value);
-  };
 
   const onPostalChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -236,7 +227,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   let provinceOptions = addressProvinceState?.map(function (elem) {
     return {
       key: elem.id,
-      value: elem.provinceName,
+      value: elem.id,
       text: elem.provinceName,
     };
   });
@@ -244,7 +235,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   let cityOptions = addressCityState?.map(function (elem) {
     return {
       key: elem.id,
-      value: elem.cityName,
+      value: elem.id,
       text: elem.cityName,
     };
   });
@@ -252,7 +243,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   let subDistrictOptions = addresssubDistrictState?.map(function (elem) {
     return {
       key: elem.id,
-      value: elem.subDistrictName,
+      value: elem.id,
       text: elem.subDistrictName,
     };
   });
@@ -374,23 +365,20 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   return (
     <Form
       loading={isLoading}
-      onSubmit={() =>
-        props.onSubmit(
-          name,
-          email,
-          no_nik,
-          npwp,
-          companyName,
-          shopName,
-          shopEmail,
-          phoneNumber,
-          province,
-          District,
-          subDistrict,
-          city,
-          postal_code
-        )
-      }
+      // onSubmit={() =>
+      //   props.onSubmit(
+      //     firstName,
+      //     lastName,
+      //     phoneNumber,
+      //     storeName,
+      //     storeEmail,
+      //     province,
+      //     District,
+      //     subDistrict,
+      //     city,
+      //     postal_code
+      //   )
+      // }
     >
       <Grid>
         <Grid.Row columns={2} only="computer">
@@ -399,12 +387,16 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
               <p className="title-content">Owner Info</p>
               <Form>
                 <Form.Field>
-                  <label>Nama Lengkap</label>
+                  <label>Nama Depan</label>
                   <Form.Input
-                    placeholder="Name"
-                    onChange={onNameChange}
-                    value={name}
+                    placeholder="Nama Depan"
+                    onChange={onFirstNameChange}
+                    value={firstName}
                   />
+                </Form.Field>
+                <Form.Field>
+                  <label>Nama Belakang</label>
+                  <Form.Input placeholder="Nama Belakang" onChange={onLastNameChange} value={lastName}/>
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
@@ -456,15 +448,15 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
                   <Form.Input
                     placeholder="Nama Toko"
                     onChange={onShopNameChange}
-                    value={shopName}
+                    value={storeName}
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Telepon</label>
                   <Form.Input
                     placeholder="Telepon"
-                    onChange={onPhoneChange}
-                    value={phoneNumber}
+                    onChange={onShopPhoneChange}
+                    value={storePhone}
                   />
                 </Form.Field>
                 <Form.Field>
@@ -472,10 +464,9 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
                   <Form.Input
                     placeholder="Email"
                     onChange={onShopEmailChange}
-                    value={shopEmail}
+                    value={storeEmail}
                   />
                 </Form.Field>
-
                 <Form.Group widths="equal">
                   <Form.Dropdown
                     fluid

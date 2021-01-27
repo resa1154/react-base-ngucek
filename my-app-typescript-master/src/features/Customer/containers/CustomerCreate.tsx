@@ -168,7 +168,7 @@ const CustomerCreate = ({isLoading = false}) => {
   const handleDistrictChange = (e: any, data: any) => {
     setSubDistrict(data.value);
     setSelectedDistrict(e.target.textContent);
-
+    console.log(data.value);
   };
 
   const onChangePostalCode = (
@@ -180,6 +180,10 @@ const CustomerCreate = ({isLoading = false}) => {
 
   const onChangeUserName = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnChangeData) => {
     setUsername(value);
+  }
+
+  const onTooglePassword = () =>{
+    setShowPassword(showPassword ? false : true);
   }
 
   const onChangePassword = (e:ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData) => {
@@ -207,6 +211,8 @@ const CustomerCreate = ({isLoading = false}) => {
     provinceId:string,
     cityId:string,
     subDistrictId:string,
+    address:string,
+    postalCode:string
   ) =>{
     dispatch (createDataCustomer(
       {
@@ -219,13 +225,15 @@ const CustomerCreate = ({isLoading = false}) => {
         provinceId,
         cityId,
         subDistrictId,
+        address,
+        postalCode
       } as  CustomerModel
     ));
   }
 
   return (
     <Container fluid>
-      <Form loading={isLoading} onSubmit={() => onSubmit(firstname,lastName,phone,email,username,password,province,city,subDistrict)}>
+      <Form loading={isLoading} onSubmit={() => onSubmit(firstname,lastName,phone,email,username,password,province,city,subDistrict,address,postal_code)}>
         <Menu secondary className="menu-header">
           <Menu.Item>
             <h3 className="h3">Data - Customer</h3>
@@ -316,6 +324,7 @@ const CustomerCreate = ({isLoading = false}) => {
                     label="Kode Pos"
                     placeholder="Kode Pos"
                     value={postal_code}
+                    onChange={onChangePostalCode}
                   />
                 </Form.Group>
                 <Form.Group widths={2}>
@@ -443,7 +452,8 @@ const CustomerCreate = ({isLoading = false}) => {
                       placeholder=""
                       value={password}
                       type={showPassword ? "text" : "password"}
-                      icon={<Icon name={showPassword ? "eye slash" : "eye"} onChange={onChangePassword} />}
+                      onChange={onChangePassword}
+                      icon={<Icon name={showPassword ? "eye slash" : "eye"} link onClick={onTooglePassword}  />}
                     />
                   </Form.Field>
                   <Form.Field>

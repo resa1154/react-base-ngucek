@@ -9,6 +9,7 @@ export interface CustomerSlice{
     single?:any;
     filter?:any;
     isLoading?:boolean;
+    status?:string;
     error?: ApiErrorResponse<any>;
 }
 
@@ -36,6 +37,18 @@ export const getDataCustomer = createAsyncThunk(
     }
 );
 
+export const deleteDataCustomer = createAsyncThunk(
+  'deleteWarehouseState/deleteWarehouseList',
+  async (customerId: string, {getState, rejectWithValue}) =>{
+      const { token } = (getState() as RootState).user;
+      try {
+          return await CustomerApi.deleteCustomer(token as string, customerId);
+      } catch (e) {
+          return rejectWithValue(e as ApiErrorResponse<any>);
+      }
+  }
+)
+
 export const getDataProvince = createAsyncThunk(
   'getDataProvinceState/getDataProvince',
   async (id:string | undefined = undefined, {getState, rejectWithValue}) => {
@@ -53,7 +66,7 @@ export const getCustomerSingle = createAsyncThunk(
     async (id: string, { getState, rejectWithValue }) => {
       const { token } = (getState() as RootState).user;
       try {
-        return await CustomerApi.getSingle(id);
+        return await CustomerApi.getSingle(token as string, id);
       } catch (e) {
         return rejectWithValue(e as ApiErrorResponse<any>);
       }
@@ -97,7 +110,12 @@ const customerSlice = createSlice({
         state.error = payload as ApiErrorResponse<any>;
         state.isLoading = false;
     });
-
+    builder.addCase(deleteDataCustomer.pending, (state) => {
+      state.status = "deleted"
+  })
+  builder.addCase(deleteDataCustomer.fulfilled, (state) => {
+      state.status = ""
+  })
     },
 })
 
