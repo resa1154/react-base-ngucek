@@ -7,6 +7,6 @@ export default class UserApi {
   private static endpoint = 'http://ngucek.ultimosolution.com:9096/api/Account/Login';
   
   static login(userLogin: LoginCredential) {
-    return axios.post<LoginSuccessResponse>(this.endpoint, userLogin).then((res) => res.data);
+    return axios.post<any>(this.endpoint, userLogin).then((res) => res.data.data);
   }
 }

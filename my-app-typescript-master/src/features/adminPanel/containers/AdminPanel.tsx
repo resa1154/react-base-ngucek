@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useState } from "react";
 import Header from "../components/Header";
-import { Menu, Image, List, Accordion, Icon } from "semantic-ui-react";
+import { Menu, Image, List, Accordion, Icon, Button } from "semantic-ui-react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Logo from "../../../assets/image/logo_ngucek_horizontal.png";
 import Dashboard from "../../Dashboard/containers/DashboardPage";
@@ -27,6 +27,7 @@ import UserSystemCreate from "../../User/containers/UserCreate";
 import Customer from "../../Customer/containers/CustomerPage";
 import CustomerDetail from "../../Customer/containers/CustomerDetailPage";
 import CustomerCreate from "../../Customer/containers/CustomerCreate";
+import CustomerUpdate from "../../Customer/containers/CustomerUpdatePage";
 import OrderReguler from "../../Order/containers/OrderPage";
 import OrderRegulerDetail from "../../Order/containers/OrderDetailPage";
 import OrderEksklusif from "../../Order/containers/OrderPageNgucek";
@@ -63,6 +64,9 @@ const AdminPanel = () => {
   //   e.setState({ activeIndexs: newIndex });
   // };
 
+  const logOutUser = () => {
+    localStorage.removeItem("__ngucekuser");
+  }
   
 
   return (
@@ -139,7 +143,7 @@ const AdminPanel = () => {
         <Menu>
           <NavLink to="/Profil" activeClassName="active" className="item">Profil</NavLink>
           <NavLink to="/Setting" activeClassName="active" className="item">General Setting</NavLink>
-          <NavLink to="/Login" className="item">Log Out</NavLink>
+          <a onClick={logOutUser} href="/Login" className="item">Log Out</a>
         </Menu>
       </div>
       <div className="main-container">
@@ -168,6 +172,7 @@ const AdminPanel = () => {
           <Route path="/Customer" component={Customer}/>
           <Route path="/CustomerDetail" component={CustomerDetail}/>
           <Route path="/CustomerCreate" component={CustomerCreate}/>
+          <Route path="/CustomerUpdate" component={CustomerUpdate}/>
           <Route path="/Order" component={OrderReguler}/>
           <Route path="/OrderDetail" component={OrderRegulerDetail}/>
           <Route path="/OrderEksklusif" component={OrderEksklusif}/>

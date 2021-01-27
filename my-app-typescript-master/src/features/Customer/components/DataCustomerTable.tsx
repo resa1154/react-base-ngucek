@@ -75,6 +75,12 @@ const DataCustomerTable = () => {
         <Table.Cell>{td.phoneNumber}</Table.Cell>
         <Table.Cell>{td.email}</Table.Cell>
         <Table.Cell>
+          <Link to={{
+            pathname:"/CustomerUpdate",
+            search: `?id=${td.id}`
+          }}>
+            <Button color="teal">Update</Button>
+          </Link>
           <Link
             to={{
               pathname: "/CustomerDetail",

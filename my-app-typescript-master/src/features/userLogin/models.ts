@@ -4,6 +4,7 @@ export interface LoginCredential {
   }
   
   export interface LoginSuccessResponse {
+   
     id: string;
     username: string;
     token: string;

@@ -25,9 +25,9 @@ const UserLoginPage = () => {
     );
   };
 
-  // if (userState.data.token) {
-  //   return <Redirect to="/Admin" />;
-  // }
+  if (userState.token) {
+    return <Redirect to="/Admin" />;
+  }
 
   return (
     <div className="outer-main">

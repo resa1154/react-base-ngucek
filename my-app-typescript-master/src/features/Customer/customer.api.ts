@@ -26,9 +26,9 @@ export default class CustomerApi{
 
       static deleteCustomer(token: string, customerId: string) {
         return axios.post<any>(this.endpoint + '/Delete?id='+ customerId,  {
-            // headers: {
-            //     Authorization: `Bearer ${token}`,
-            // },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((res) => res.data);
     }
