@@ -71,7 +71,7 @@ useEffect(() => {
       setDistrict(CustomerState.district);
       setSubDistrict(CustomerState.subDistrict);
       setCity(CustomerState.city);
-      setPostalCode(CustomerState.postal_code);
+      setPostalCode(CustomerState.postalCode);
       setStatus(CustomerState.status);
       setPassword(CustomerState.password);
     }
@@ -129,21 +129,16 @@ useEffect(() => {
                     placeholder="Provinsi" value={province}
                     readOnly
                   />
-                  <Form.Input
-                    fluid
-                    label="Kecamatan"
-                    placeholder="Kecamatan" value={district}
-                    readOnly
-                  />
+         <Form.Input fluid label="Kota" placeholder="Kota" value={city} readOnly />
                 </Form.Group>
-                <Form.Group widths="equal">
+                <Form.Group widths={2}>
                   <Form.Input
                     fluid
-                    label="Kelurahan"
+                    label="Kecamatan / Kelurahan"
                     placeholder="Kelurahan" value={subDistrict}
                     readOnly
                   />
-                  <Form.Input fluid label="Kota" placeholder="Kota" value={city} readOnly />
+                  
                 </Form.Group>
                 <Form.Group widths={2}>
                   <Form.Input

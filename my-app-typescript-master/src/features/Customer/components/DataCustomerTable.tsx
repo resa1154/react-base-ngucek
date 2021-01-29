@@ -57,9 +57,9 @@ const DataCustomerTable = () => {
   const PagingCustomer = datacustomerstate.slice(indexOfFirstPage, indexOfLastPage);
 
   const onDelete = (id:string) => {
-    dispatch(deleteDataCustomer(id));
-    // dispatch(getDataCustomer());
+    dispatch(deleteDataCustomer({id}));
     console.log("delete");
+    dispatch(getDataCustomer());
   }
 
   const onDeleteClicked = (e: any, data: any) => {
@@ -70,7 +70,7 @@ const DataCustomerTable = () => {
   const renderItemsTableRow = () => {
     return PagingCustomer.map((td: any) => (
       <Table.Row key={td.id}>
-        <Table.Cell>{td.no}</Table.Cell>
+        {/* <Table.Cell>{td.no}</Table.Cell> */}
         <Table.Cell>{td.firstName +" "+ td.lastName}</Table.Cell>
         <Table.Cell>{td.phoneNumber}</Table.Cell>
         <Table.Cell>{td.email}</Table.Cell>
@@ -110,7 +110,7 @@ const DataCustomerTable = () => {
         <Table celled>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>No</Table.HeaderCell>
+          {/* <Table.HeaderCell>No</Table.HeaderCell> */}
           <Table.HeaderCell>Nama</Table.HeaderCell>
           <Table.HeaderCell>No. Telepon</Table.HeaderCell>
           <Table.HeaderCell>Email</Table.HeaderCell>

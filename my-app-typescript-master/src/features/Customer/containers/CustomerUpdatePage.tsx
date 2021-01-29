@@ -7,7 +7,8 @@ import { RootState } from "../../../app/store";
 import { getAddressCity } from "../../dataSet/city/city.reducer";
 import { getAddressProvince } from "../../dataSet/province/province.reducer";
 import { getAddressSubDistrict } from "../../dataSet/subDistrict/subDistrict.reducer";
-import { getCustomerSingle } from "../customer.reducer";
+import { getCustomerSingle, updateDataCustomer } from "../customer.reducer";
+import { CustomerModel, CustomerUpdateModel } from "../model";
 
 const CustomerUpdatePage = ({isLoading = false}) => {
 
@@ -186,10 +187,6 @@ const CustomerUpdatePage = ({isLoading = false}) => {
     console.log(data.value);
   };
 
-  const onSubmit = () => {
-
-  }
-
   const CustomerState = useSelector((state:RootState) => state.customer.single);
 
   let history = useHistory();
@@ -209,18 +206,46 @@ console.log(paramID);
       setEmail(CustomerState.email);
       setPhone(CustomerState.phoneNumber);
       setAddress(CustomerState.address);
-      setProvince(CustomerState.province);
+      setSelectedProvince(CustomerState.provinceId);
       setSubDistrict(CustomerState.subDistrict);
-      setCity(CustomerState.city);
+      setCity(CustomerState.cityId);
       setPostalCode(CustomerState.postalCode);
       setStatus(CustomerState.status);
       setPassword(CustomerState.password);
     }
   }, [CustomerState !== undefined]);
 
+  const onSubmit = (
+    id:string,
+    firstName:string,
+    lastName:string,
+    phoneNumber:string,
+    provinceId:string,
+    cityId:string,
+    subDistrictId:string,
+    registrationStatus:0,
+    address:string,
+    postalCode:string
+  ) =>{
+    dispatch (updateDataCustomer(
+      {
+        id,
+        firstName,
+        lastName,
+        phoneNumber,
+        provinceId,
+        cityId,
+        subDistrictId,
+        registrationStatus,
+        address,
+        postalCode
+      } as  CustomerUpdateModel
+    ));
+  }
+
     return(
         <Container fluid>
-        <Form loading={isLoading}>
+        <Form loading={isLoading} onSubmit={() => onSubmit(paramID,firstname,lastName,phone,province,city,subDistrict,0,address,postal_code)}>
           <Menu secondary className="menu-header">
             <Menu.Item>
               <h3 className="h3">Data - Customer</h3>

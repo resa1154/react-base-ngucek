@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
-import { createDataCustomer, getDataProvince } from "../customer.reducer";
+import { createDataCustomer} from "../customer.reducer";
 import { CustomerModel } from "../model";
 import { RootState } from "../../../app/store";
 import { getAddressProvince } from "../../dataSet/province/province.reducer";
@@ -211,6 +211,7 @@ const CustomerCreate = ({isLoading = false}) => {
     provinceId:string,
     cityId:string,
     subDistrictId:string,
+    registrationStatus:0,
     address:string,
     postalCode:string
   ) =>{
@@ -225,6 +226,7 @@ const CustomerCreate = ({isLoading = false}) => {
         provinceId,
         cityId,
         subDistrictId,
+        registrationStatus,
         address,
         postalCode
       } as  CustomerModel
@@ -233,7 +235,7 @@ const CustomerCreate = ({isLoading = false}) => {
 
   return (
     <Container fluid>
-      <Form loading={isLoading} onSubmit={() => onSubmit(firstname,lastName,phone,email,username,password,province,city,subDistrict,address,postal_code)}>
+      <Form loading={isLoading} onSubmit={() => onSubmit(firstname,lastName,phone,email,username,password,province,city,subDistrict,0,address,postal_code)}>
         <Menu secondary className="menu-header">
           <Menu.Item>
             <h3 className="h3">Data - Customer</h3>

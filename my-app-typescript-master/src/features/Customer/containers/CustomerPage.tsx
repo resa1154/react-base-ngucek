@@ -61,10 +61,10 @@ const CustomerPage = ({ isLoading = false, ...props }) => {
     console.log("data filter:"+datafilter)
     const filteredData = datafilter.filter(
       (find:{
-        firstName:{toString: () => string};
-        phoneNumber:{toString:() => string};
-        status:{toString: () => string};
-      }) => find.firstName.toString().toLowerCase() === datainput.name || find.phoneNumber.toString().toLowerCase() === datainput.phone  || find.status.toString().toLowerCase() === datainput.status);
+        firstName:string;
+        phoneNumber:string;
+        status:string;
+      }) => find.firstName.toLowerCase() === datainput.name || find.phoneNumber === datainput.phone  || find.status === datainput.status);
     
       return filteredData;
       console.log(filteredData);

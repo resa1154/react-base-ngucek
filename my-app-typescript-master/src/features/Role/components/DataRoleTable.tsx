@@ -76,7 +76,7 @@ const DataRoleTable = () => {
         return PagingRole.map((td:any) => (
           <Table.Row key={td.id}>
           <Table.Cell>{td.no}</Table.Cell>
-          <Table.Cell>{td.roles}</Table.Cell>
+          <Table.Cell>{td.text}</Table.Cell>
           <Table.Cell>
               <Link to={{
                   pathname:"/RoleDetail" ,

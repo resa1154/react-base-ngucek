@@ -9,8 +9,26 @@ export interface CustomerModel{
     provinceId:string,
     cityId:string,
     subDistrictId:string,
+    registrationStatus:0,
     address:string,
     postalCode:string
+}
+
+export interface CustomerUpdateModel{
+    id:string,
+    firstName:string,
+    lastName:string,
+    phoneNumber:string,
+    provinceId:string,
+    cityId:string,
+    subDistrictId:string,
+    registrationStatus:0,
+    address:string,
+    postalCode:string
+}
+
+export interface CustomerDeleteModel{
+    id:string
 }
 
 export interface CreateDataCustomerSuccessResponse {
@@ -22,5 +40,6 @@ export interface CreateDataCustomerSuccessResponse {
     password:string,
     provinceId:string,
     cityId:string,
-    subDistrictId:string
+    subDistrictId:string,
+    name:string
 }

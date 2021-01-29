@@ -2,12 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiErrorResponse } from "../..";
 import { RootState } from "../../app/store";
 import CustomerApi from "./customer.api";
-import { CustomerModel } from "./model";
+import { CustomerDeleteModel, CustomerModel, CustomerUpdateModel } from "./model";
 
 export interface CustomerSlice{
     list?:any;
     single?:any;
     filter?:any;
+    name?: string;
     isLoading?:boolean;
     status?:string;
     error?: ApiErrorResponse<any>;
@@ -25,6 +26,18 @@ export const createDataCustomer = createAsyncThunk(
   }
 );
 
+export const updateDataCustomer = createAsyncThunk(
+  'updateCustomerState/updateCustomer',
+  async (DataCustomerUpdateModel: CustomerUpdateModel, {getState, rejectWithValue}) => {
+      const {token} = (getState() as RootState).user;
+      try {
+          return await CustomerApi.updateCustomer(token as string,DataCustomerUpdateModel);
+      } catch (e) {
+          return rejectWithValue(e as ApiErrorResponse<any>);
+      }
+  }
+)
+
 export const getDataCustomer = createAsyncThunk(
     'getDataCustomerState/getDataCustomer',
     async (id: string | undefined = undefined, { getState, rejectWithValue}) => {
@@ -39,7 +52,7 @@ export const getDataCustomer = createAsyncThunk(
 
 export const deleteDataCustomer = createAsyncThunk(
   'deleteWarehouseState/deleteWarehouseList',
-  async (customerId: string, {getState, rejectWithValue}) =>{
+  async (customerId: CustomerDeleteModel, {getState, rejectWithValue}) =>{
       const { token } = (getState() as RootState).user;
       try {
           return await CustomerApi.deleteCustomer(token as string, customerId);
@@ -49,17 +62,17 @@ export const deleteDataCustomer = createAsyncThunk(
   }
 )
 
-export const getDataProvince = createAsyncThunk(
-  'getDataProvinceState/getDataProvince',
-  async (id:string | undefined = undefined, {getState, rejectWithValue}) => {
-    const { token } = (getState() as RootState).user;
-    try {
-        return await CustomerApi.getDataCustomer(token as string);
-    } catch (e) {
-        return rejectWithValue(e as ApiErrorResponse<any>);
-    }
-  }
-);
+// export const getDataProvince = createAsyncThunk(
+//   'getDataProvinceState/getDataProvince',
+//   async (id:string | undefined = undefined, {getState, rejectWithValue}) => {
+//     const { token } = (getState() as RootState).user;
+//     try {
+//         return await CustomerApi.getDataCustomer(token as string);
+//     } catch (e) {
+//         return rejectWithValue(e as ApiErrorResponse<any>);
+//     }
+//   }
+// );
 
 export const getCustomerSingle = createAsyncThunk(
     'getCustomerSingleState/customerSingle',
@@ -84,12 +97,12 @@ const customerSlice = createSlice({
         setSingle: (state, action) => {
             state.single = action.payload;
           },
-        // setName: (state, action) => {
-        // state.name = action.payload;
-        // },
-        // setLoading: (state, action) => {
-        // state.isLoading = action.payload;
-        // },
+        setName: (state, action) => {
+        state.name = action.payload;
+        },
+        setLoading: (state, action) => {
+        state.isLoading = action.payload;
+        },
         setFilter:(state, action) =>{
           state.filter = action.payload;
         }
@@ -102,13 +115,35 @@ const customerSlice = createSlice({
         state.list = payload;
         state.isLoading = false;
     });
+    builder.addCase(getDataCustomer.rejected, (state, {payload}) => {
+      state.error = payload as ApiErrorResponse<any>;
+      state.isLoading = false;
+  });
     builder.addCase(getCustomerSingle.fulfilled, (state, { payload }) => {
-        state.single = payload[0];
+        state.single = payload;
         state.isLoading = false;
       });
-    builder.addCase(getDataCustomer.rejected, (state, {payload}) => {
-        state.error = payload as ApiErrorResponse<any>;
-        state.isLoading = false;
+    builder.addCase(createDataCustomer.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(createDataCustomer.fulfilled, (state, { payload }) => {
+      state.name = payload.name;
+      state.isLoading = false;
+    });
+
+    builder.addCase(createDataCustomer.rejected, (state, { payload }) => {
+      state.error = payload as ApiErrorResponse<any>;
+      state.isLoading = false;
+    });
+
+    builder.addCase(updateDataCustomer.fulfilled,(state, {payload})=> {
+      state.name = payload.name;
+      state.isLoading = false;
+      state.status = "";
+  })
+    builder.addCase(updateDataCustomer.pending, (state) => {
+      state.isLoading = true;
     });
     builder.addCase(deleteDataCustomer.pending, (state) => {
       state.status = "deleted"
