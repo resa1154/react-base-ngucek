@@ -60,9 +60,9 @@ const DataUserTable = () => {
   const renderItemsTableRow = () => {
     return PagingUser.map((td: any) => (
       <Table.Row key={td.id}>
-        <Table.Cell>{td.no}</Table.Cell>
+        {/* <Table.Cell>{td.no}</Table.Cell> */}
         <Table.Cell>{td.name}</Table.Cell>
-        <Table.Cell>{td.password}</Table.Cell>
+        <Table.Cell>{td.email}</Table.Cell>
         <Table.Cell>{td.roleEnum}</Table.Cell>
         <Table.Cell>
           {/* <Link to={{
@@ -85,9 +85,8 @@ const DataUserTable = () => {
     <Table celled>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>No</Table.HeaderCell>
           <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Password</Table.HeaderCell>
+          <Table.HeaderCell>Email</Table.HeaderCell>
           <Table.HeaderCell>Roles</Table.HeaderCell>
           <Table.HeaderCell>Action</Table.HeaderCell>
         </Table.Row>

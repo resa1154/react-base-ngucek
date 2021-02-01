@@ -206,14 +206,17 @@ console.log(paramID);
       setEmail(CustomerState.email);
       setPhone(CustomerState.phoneNumber);
       setAddress(CustomerState.address);
-      setSelectedProvince(CustomerState.provinceId);
-      setSubDistrict(CustomerState.subDistrict);
+      setProvince(CustomerState.provinceId);
       setCity(CustomerState.cityId);
+      setSubDistrict(CustomerState.subDistrictId);
       setPostalCode(CustomerState.postalCode);
       setStatus(CustomerState.status);
       setPassword(CustomerState.password);
+      setUsername(CustomerState.username);
     }
   }, [CustomerState !== undefined]);
+
+  console.log("setCity"+city);
 
   const onSubmit = (
     id:string,
@@ -299,7 +302,7 @@ console.log(paramID);
                       selection
                       value={province}
                       onChange={handleProvinceChange}
-                      defaultSelectedLabel={province}
+                      defaultValue={province}
                     />
                     <Form.Dropdown
                       fluid
@@ -309,8 +312,7 @@ console.log(paramID);
                       selection
                       value={city}
                       onChange={handleCityChange}
-                      defaultSelectedLabel={city}
-                      disabled={province === "" ? isActive:false}
+                      defaultValue={city}
                     />
                   </Form.Group>
                   <Form.Group widths={2}>
@@ -322,8 +324,7 @@ console.log(paramID);
                       selection
                       value={subDistrict}
                       onChange={handleDistrictChange}
-                      defaultSelectedLabel={subDistrict}
-                      disabled={city === "" ? isActive:false}
+                      defaultValue={subDistrict}
                     />
                     {/* <Form.Input
                       fluid

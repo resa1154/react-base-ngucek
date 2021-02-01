@@ -15,7 +15,7 @@ import { getAddressProvince } from "../../dataSet/province/province.reducer";
 import { getAddressCity } from "../../dataSet/city/city.reducer";
 import { getAddressSubDistrict } from "../../dataSet/subDistrict/subDistrict.reducer";
 
-const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
+const DataMitraForm = ({isLoading = false, ...prop}: DataMitraFormProps) => {
   const [startYear, setStartYear] = useState(new Date());
   const [open, setOpen] = useState(false);
 
@@ -35,15 +35,16 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   const [storePhone, setStorePhone] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
-  const [District, setDistrict] = useState("");
   const [subDistrict, setSubDistrict] = useState("");
   const [city, setCity] = useState("");
   const [postal_code, setPostalCode] = useState("");
+  const [username,setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [companySince, setCompanySince] = useState("");
   const [date, setDate] = useState("");
   const [social_link, setSocialLink] = useState("");
   const [social_link1, setSocialLink1] = useState("");
-  const [social_link2, setSocialLink2] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   //dropdown
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -56,7 +57,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   const [images_profil, setImagesProfil] = useState([]);
   const [images_store, setImagesStore] = useState([]);
 
-  const [showPassword, setShowPassword] = useState("");
+  
   const [showPassword1, setShowPassword1] = useState("");
   const [showPassword2, setShowPassword2] = useState("");
   const [showPassword3, setShowPassword3] = useState("");
@@ -180,7 +181,6 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
     setAddress(value);
   };
 
-
   const onPostalChange = (
     e: ChangeEvent<HTMLInputElement>,
     { value }: InputOnChangeData
@@ -209,12 +209,18 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
     setSocialLink1(value);
   };
 
-  const onChangeSocialLink2 = (
-    e: ChangeEvent<HTMLInputElement>,
-    { value }: InputOnChangeData
-  ) => {
-    setSocialLink2(value);
-  };
+  const onChangeUserName = (e:ChangeEvent<HTMLInputElement>, {value}:InputOnChangeData) => {
+    setUsername(value);
+  }
+  
+  const onTooglePassword = () =>{
+    setShowPassword(showPassword ? false : true);
+  }
+
+  const onChangePassword = (e:ChangeEvent<HTMLInputElement>,{value}:InputOnChangeData) => {
+    setPassword(value);
+  }
+
 
   const addressProvinceState = useSelector(
     (state: RootState) => state.province.province
@@ -365,8 +371,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
   return (
     <Form
       loading={isLoading}
-      // onSubmit={() =>
-      //   props.onSubmit(
+      // onSubmit={() => onSubmit(
       //     firstName,
       //     lastName,
       //     phoneNumber,
@@ -608,10 +613,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
                       </div>
                     )}
                   </ImageUploading>
-                  {/* <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  /> */}
+    
                   <p className="title-image">KTP</p>
                 </div>
                 <div className="image-content">
@@ -725,10 +727,6 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
               <p className="title-content">Store Photos</p>
               <Image.Group className="image-container">
                 <div className="image-content">
-                  {/* <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  /> */}
                   <ImageUploading
                     multiple
                     value={images_store}
@@ -779,20 +777,7 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
                   </ImageUploading>
                   <p className="title-image">Foto Daftar Harga</p>
                 </div>
-                {/* <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  />
-                  <p className="title-image">Foto 1 </p>
-                </div>
-                <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  />
-                  <p className="title-image">Foto 2 </p>
-                </div> */}
+
               </Image.Group>
             </div>
             <div className="form-content">
@@ -819,13 +804,13 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
               <Form>
                 <Form.Field>
                   <label>Nomor Tlp / Email</label>
-                  <Form.Input />
+                  <Form.Input placeholder="" value={username} onChange={onChangeUserName}/>
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
                   <Form.Input
                     type={showPassword ? "text" : "password"}
-                    icon={<Icon name={showPassword ? "eye slash" : "eye"} />}
+                    icon={<Icon name={showPassword ? "eye slash" : "eye"} link onClick={onTooglePassword}/>}
                   />
                 </Form.Field>
                 <Form.Field>
@@ -918,153 +903,6 @@ const DataMitraForm = ({ isLoading = false, ...props }: DataMitraFormProps) => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-
-      {/* <Grid>
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <div className="form-content">
-              <p className="title-content">Store Info</p>
-              <Form >
-                <Form.Field>
-                  <label>Nama Perusahaan</label>
-                  <Form.Input placeholder="Nama Perusahaan" onChange={onCompanyNameChange} value={companyName}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Nama Toko</label>
-                  <Form.Input placeholder="Nama Toko" onChange={onShopNameChange} value={shopName} />
-                </Form.Field>
-                <Form.Field>
-                  <label>Telepon</label>
-                  <Form.Input placeholder="Telepon" onChange={onPhoneChange} value={phoneNumber}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Email</label>
-                  <Form.Input placeholder="Email" onChange={onShopEmailChange} value={shopEmail}/>
-                </Form.Field>
-                <Form.Group widths={2}>
-                  <Form.Field>
-                    <label>Tahun Berdiri</label>
-         
-                    <ReactDatePicker
-                      selected={startYear}
-                      onChange={(date) => setStartYear(date as Date)}
-                      showYearPicker
-                      dateFormat="yyyy"
-                    ></ReactDatePicker>
-                  </Form.Field>
-                </Form.Group>
-                <Form.Checkbox label="Memiliki Kurir" />
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Provinsi" placeholder="Provinsi" onChange={onProvinceChange} value={province}/>
-                  <Form.Input fluid label="Kecamatan" placeholder="Kecamatan" onChange={onDistricChange} value={District}/>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Form.Input fluid label="Kelurahan" placeholder="Kelurahan" onChange={onSubDistricChange} value={subDistrict} />
-                  <Form.Input fluid label="Kota" placeholder="Kota" onChange={onCityChange} value={city}/>
-                </Form.Group>
-                <Form.Group widths={2}>
-                  <Form.Input fluid label="Kode Pos" placeholder="Kode Pos" onChange={onPostalChange} value={postal_code} />
-                </Form.Group>
-                <Form.TextArea label="Alamat" placeholder="Alamat" onChange={onAddressChange} value={address}/>
-                <Form.Field>
-                  <label>Map</label>
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6028835490106!2d107.56859841431734!3d-6.9379733698426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68ef5257dd90f3%3A0x868caac6bb2f20fb!2sUltimo%20Solution!5e0!3m2!1sen!2sid!4v1604626512281!5m2!1sen!2sid"
-                    width="100%"
-                    height="250"
-                    // frameborder="0"
-                    style={{ border: 0 }}
-                    // allowfullscreen=""
-                    aria-hidden="false"
-                    // tabindex="0"
-                  ></iframe>
-                </Form.Field>
-              </Form>
-            </div>
-          </Grid.Column>
-          <Grid.Column>
-            <div className="form-content">
-              <p className="title-content">Store Photos</p>
-              <Image.Group className="image-container">
-                <div className="image-content">
-            
-                      <ImageUploading
-        multiple
-        value={images_store}
-        onChange={onImageStoreChange}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <Button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            ><Icon name="upload"/> Upload Files
-            </Button>
-            &nbsp;
-            <div className="image-wrapper">
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <Image src={image.dataURL} alt="" size="small" />
-                <div className="image-item__btn-wrapper">
-                  <Button color="teal" onClick={() => onImageUpdate(index)}><Icon name="redo" style={{margin:0}}/></Button>
-                  <Button color="red" onClick={() => onImageRemove(index)} ><Icon name="trash" style={{margin:0}}/></Button>
-                </div>
-              </div>
-            ))}
-            </div>
-          </div>
-        )}
-      </ImageUploading>
-                  <p className="title-image">Foto Daftar Harga</p>
-                </div>
-                {/* <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  />
-                  <p className="title-image">Foto 1 </p>
-                </div>
-                <div className="image-content">
-                  <Image
-                    src="https://react.semantic-ui.com/images/wireframe/image.png"
-                    size="small"
-                  />
-                  <p className="title-image">Foto 2 </p>
-                </div> 
-              </Image.Group>
-            </div>
-            <div className="form-content">
-              <p className="title-content">Social Media</p>
-              <Form>
-                <Form.Field>
-                  <label>Website</label>
-                  <Form.Input onChange={onChangeSocialLink} value={social_link}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Youtube</label>
-                  <Form.Input onChange={onChangeSocialLink1} value={social_link1}/>
-                </Form.Field>
-                <Form.Field>
-                  <label>Twitter</label>
-                  <Form.Input onChange={onChangeSocialLink2} value={social_link2}/>
-                </Form.Field>
-              </Form>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      <Button color="teal" floated="right" size="medium" style={{ width: 100 }}>
-        create
-      </Button> */}
     </Form>
   );
 };

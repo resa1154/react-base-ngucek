@@ -29,12 +29,21 @@ export interface MitraModel {
   cityId:string,
   subdistrictId:string,
   postalCode:string,
-  yearEstablished:string,
+  yearEstablished:0,
   hasCourier:boolean,
   isVerified:boolean,
   email:string,
   username:string,
   password:string,
+  images:string,
+  type:0,
+  nik:string,
+  npwp:string,
+  website:string,
+  youtube:string,
+  twitter:string,
+  instagram:string,
+  facebook:string
   }
   
   export interface MitraDetailModel{

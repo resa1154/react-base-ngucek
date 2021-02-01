@@ -75,7 +75,6 @@ const DataRoleTable = () => {
     const renderItemsTableRow = () =>{
         return PagingRole.map((td:any) => (
           <Table.Row key={td.id}>
-          <Table.Cell>{td.no}</Table.Cell>
           <Table.Cell>{td.text}</Table.Cell>
           <Table.Cell>
               <Link to={{
@@ -98,7 +97,6 @@ const DataRoleTable = () => {
         <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>No</Table.HeaderCell>
             <Table.HeaderCell>Role Name</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
